@@ -1,0 +1,902 @@
+
+export interface TimelineMarker {
+  id: string;
+  time: number;
+  label: string;
+  color: string; // hex color
+}
+
+export interface TimelineRegion {
+  id: string;
+  startTime: number;
+  endTime: number;
+  label: string;
+  color: string; // hex color
+}
+
+export type Sentiment = 'neutral' | 'anger' | 'joy' | 'urgency' | 'proverb' | 'sarcasm';
+
+export type EasingType = 'linear' | 'easeIn' | 'easeOut' | 'easeInOut' | 'elastic' | 'bounce' | 'backIn' | 'backOut';
+
+export interface Keyframe {
+  id: string;
+  time: number;
+  value: number;
+  easing?: EasingType;
+}
+
+export interface VideoTransform {
+  scale: number;
+  positionX: number;
+  positionY: number;
+  rotation: number;
+  opacity: number;
+  keyframes: Record<string, Keyframe[]>; 
+}
+
+export interface VideoAdjustment {
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  blur: number;
+  hue: number;
+  filterIntensity: number;
+  vignetteIntensity: number;
+  vignetteSize: number;
+}
+
+export interface EnhancementProfile {
+  upscale: boolean;
+  denoise: boolean;
+  colorCorrection: boolean;
+  strength: number;
+}
+
+export interface StabilizationProfile {
+  smoothness: number;
+  cropFactor: number;
+  temporalSmoothing: boolean;
+}
+
+export interface VideoClip {
+  id: string;
+  url: string;
+  proxyUrl?: string;
+  thumbnail: string;
+  startTime: number;
+  duration: number;
+  name: string;
+  trackId: number; // For multi-track
+  transitionIn?: 'none' | 'fade' | 'slide' | 'zoom';
+  transitionOut?: 'none' | 'fade' | 'slide' | 'zoom';
+  transitionDuration?: number;
+  speed: number; // For speed ramping
+  fadeInDuration?: number;
+  fadeOutDuration?: number;
+  isEnhanced?: boolean;
+  enhancementProfile?: EnhancementProfile;
+  isStabilized?: boolean;
+  stabilizationProfile?: StabilizationProfile;
+  isAdjustmentLayer?: boolean;
+  adjustment?: VideoAdjustment;
+  smartGradeEnabled?: boolean;
+  smartGradePreset?: string;
+  spatialAudioEnabled?: boolean;
+  autoReframeEnabled?: boolean;
+  reframeFocus?: 'center' | 'subject' | 'dynamic';
+  mask?: MaskProfile;
+  motionBlur?: boolean;
+  motionBlurIntensity?: number;
+  shutterAngle?: number;
+  samples?: number;
+  blendMode?: 'normal' | 'multiply' | 'screen' | 'overlay' | 'add' | 'difference' | 'exclusion' | 'color_dodge' | 'color_burn' | 'hard_light' | 'soft_light' | 'vivid_light' | 'pin_light';
+  colorGrading?: {
+    lift: { r: number; g: number; b: number; w: number };
+    gamma: { r: number; g: number; b: number; w: number };
+    gain: { r: number; g: number; b: number; w: number };
+    offset: { r: number; g: number; b: number; w: number };
+    lut?: string;
+    curves?: {
+      luma: { x: number; y: number }[];
+      red: { x: number; y: number }[];
+      green: { x: number; y: number }[];
+      blue: { x: number; y: number }[];
+    };
+    gradingNodes?: {
+      id: string;
+      label: string;
+      type: 'corrector' | 'lut' | 'curved' | 'cst';
+      enabled: boolean;
+      data: any;
+    }[];
+    colorSpace: 'rec709' | 'log' | 'linear';
+  };
+  tracking?: {
+    id: string;
+    type: 'point' | 'planar' | 'camera';
+    status: 'idle' | 'tracking' | 'done';
+    confidence: number;
+    points: { x: number; y: number; t: number }[];
+    searchRange: number;
+    featureQuality: number;
+    occlusionHandling: 'none' | 'linear_prediction' | 'smart_fill';
+    smoothing: number;
+  };
+  rotoscope?: {
+    enabled: boolean;
+    points: { x: number; y: number }[];
+    feather: number;
+    autoKeyframe: boolean;
+    mode: 'smart_segmentation' | 'manual_spline' | 'magic_edge';
+    refinement: number;
+    propagation: boolean;
+  };
+  audio?: {
+    volume: number;
+    pan: number;
+    eq: { low: number; mid: number; high: number };
+    voiceClarity: boolean;
+    voiceIsolation: number;
+    spectralRepair: boolean;
+    loudnessStandard: 'EBU_R128' | 'ATSC_A85' | 'CUSTOM';
+  };
+  transform?: VideoTransform;
+  motionIntensity?: number; // Added
+  audioEnergy?: number; // Added
+  narrativeRole?: 'hook' | 'setup' | 'climax' | 'resolution' | 'filler'; // Added
+  depth?: {
+    enabled: boolean;
+    near: number;
+    far: number;
+    focalLength: number;
+    depthMapUrl?: string;
+  };
+  effects?: {
+    chromaticAberration: number;
+    glitchIntensity: number;
+    scanlineOpacity: number;
+    vignette: number;
+    noise: number;
+    bloom: number;
+  };
+}
+
+export interface Sequence {
+  id: string;
+  name: string;
+  videoClips: VideoClip[];
+  subtitleTrack: SubtitleBlock[];
+  textTrack: TextBlock[];
+  audioTrack: AudioBlock[];
+  effectTrack: EffectBlock[];
+  shapeTrack: ShapeBlock[];
+  particleTrack: ParticleSystem[];
+}
+
+export interface SubtitleBlock {
+  id: string;
+  startTime: number;
+  duration: number;
+  text: string;
+  style?: 'standard' | 'impact' | 'minimal';
+}
+
+export interface TextBlock {
+  id: string;
+  text: string;
+  startTime: number;
+  duration: number;
+  animation: 'none' | 'fade' | 'pop' | 'slide' | 'typewriter' | 'glitch' | 'mask_reveal' | 'floating' | '3d_flip'; 
+  is3D?: boolean;
+  depth?: number;
+  rotation3D?: { x: number; y: number; z: number };
+  extrude?: number;
+  perspective?: number;
+  bevel?: number;
+  reflection?: number;
+  material?: 'matte' | 'metallic' | 'neon' | 'glass' | 'iridescent' | 'brushed_metal';
+  lightingIntensity?: number;
+  lightSource?: { x: number; y: number; z: number };
+  glowColor?: string;
+  letterSpacing?: number;
+  wordSpacing?: number;
+  lineHeight?: number;
+  typingSpeed?: number;
+  characterPhysics?: boolean;
+  motionBlur?: boolean;
+  motionBlurIntensity?: number;
+  easing?: 'linear' | 'ease_in_out' | 'elastic' | 'bounce' | 'exponential' | 'easeIn' | 'easeOut' | 'easeInOut' | 'circIn' | 'circOut' | 'backIn' | 'backOut' | 'anticipate';
+  stiffness?: number;
+  damping?: number;
+  mass?: number;
+  motionPath?: 'linear' | 'bezier' | 'orbital' | 'sine' | 'infinite_loop' | 'random_walk' | 'turbulence_field' | 'magnetic_point' | 'geometric_snapping';
+  typographyPreset?: 'none' | 'glitch' | 'kinetic' | 'floating' | 'flicker' | 'scatter' | 'reveal' | 'matrix_cascade' | 'typewriter_advanced' | 'depth_pulse' | 'voxel_build' | 'vibrant_glow';
+  animationPreset?: 'pop_in' | 'slide_mask' | 'elastic_bounce' | 'liquid_distortion' | 'overshoot_3d' | 'physics_drop' | 'cloth_ripple' | 'magnetic_attract';
+  behavior?: 'none' | 'drift' | 'float' | 'pulse' | 'avoid_mouse' | 'attract_mouse' | 'orbit_center' | 'shake_on_beat';
+  mask?: MaskProfile;
+  style: {
+    fontFamily: string;
+    fontSize: number;
+    color: string;
+    x: number;
+    y: number;
+    opacity: number;
+    shadow: string;
+    fontWeight?: string;
+    textAlign?: 'left' | 'center' | 'right';
+    backgroundColor?: string;
+    backgroundOpacity?: number;
+    padding?: number;
+    borderRadius?: number;
+    blendMode?: 'normal' | 'multiply' | 'screen' | 'overlay' | 'lighten' | 'darken' | 'add' | 'difference' | 'exclusion' | 'color_dodge' | 'color_burn' | 'hard_light' | 'soft_light';
+  }
+}
+
+export type ShapeType = 'rectangle' | 'circle' | 'triangle' | 'star' | 'polygon';
+
+export interface ShapeBlock {
+  id: string;
+  type: ShapeType;
+  startTime: number;
+  duration: number;
+  color: string;
+  strokeColor?: string;
+  strokeWidth?: number;
+  points?: number;
+  cornerRadius?: number;
+  sides?: number; 
+  innerRadius?: number; 
+  morphPath?: string;
+  dashOffset?: number;
+  is3D?: boolean;
+  depth?: number;
+  material?: 'matte' | 'metallic' | 'glass' | 'neon';
+  animation: 'none' | 'draw' | 'scale' | 'fade' | 'morph' | 'path_reveal' | 'trim_path';
+  transform: VideoTransform;
+  blendMode: 'normal' | 'multiply' | 'screen' | 'overlay' | 'add' | 'difference' | 'exclusion' | 'color_dodge' | 'color_burn' | 'hard_light' | 'soft_light';
+  mask?: MaskProfile;
+  behavior?: 'none' | 'drift' | 'float' | 'pulse' | 'avoid_mouse' | 'attract_mouse' | 'orbit_center' | 'shake_on_beat';
+  mass?: number;
+  stiffness?: number;
+  motionBlur?: boolean;
+  motionBlurIntensity?: number;
+}
+
+export interface ParticleSystem {
+  id: string;
+  type: 'snow' | 'fire' | 'dust' | 'sparkles' | 'confetti' | 'energy' | 'nebula' | 'plasma';
+  startTime: number;
+  duration: number;
+  intensity: number;
+  color: string;
+  direction: number; // angle
+  spread: number;
+  velocity: number;
+  size: number;
+  life: number;
+  gravity: number;
+  turbulence: number;
+  vorticity?: number;
+  attraction?: number;
+  noiseScale?: number;
+  particleShadow?: boolean;
+  collisionRange?: number;
+  restitution?: number;
+  colorPrimary: string;
+  colorSecondary?: string;
+  blendMode: 'normal' | 'screen' | 'overlay' | 'add' | 'multiply' | 'color_dodge';
+}
+
+export interface MaskProfile {
+  id: string;
+  type: 'rectangle' | 'circle' | 'path' | 'luminance' | 'alpha';
+  points?: { x: number; y: number }[];
+  feather: number;
+  invert: boolean;
+  expansion: number;
+  opacity?: number;
+}
+
+export type EffectType = 'none' | 'vhs' | 'glitch' | 'scanline' | 'film_grain' | 'chromatic_aberration' | 'data_stream' | 'shake' | 'bounce' | 'slide_up' | 'motion_blur' | 'bloom' | 'kaleidoscope' | 'pixelate' | 'rotoscoped_glow';
+
+export interface EffectBlock {
+  id: string;
+  type: EffectType;
+  startTime: number;
+  duration: number;
+  intensity: number;
+}
+
+export interface AudioBlock {
+  id: string;
+  url: string;
+  name: string;
+  startTime: number;
+  duration: number;
+  volume: number;
+  type: 'music' | 'sfx' | 'voiceover';
+  trackId: number; // For multi-track
+  speed: number;
+  voiceEffect?: 'none' | 'robot' | 'deep' | 'radio' | 'echo';
+}
+
+export type AspectRatio = '16:9' | '9:16' | '1:1' | '4:5' | '2.35:1';
+export type FilterPreset = 'none' | 'vibrant' | 'cinema' | 'vintage' | 'bw' | 'cyber' | 'horror' | 'gold' | 'neon' | 'tiktok_vibes' | 'reel_glow';
+
+export type SocialPlatform = 'tiktok' | 'reels' | 'shorts' | 'youtube' | 'instagram' | 'twitter' | 'linkedin' | 'none';
+
+export interface SEOData {
+  title: string;
+  description: string;
+  keywords: string[];
+  score: number;
+  suggestions: string[];
+}
+
+export interface PublishingSchedule {
+  id: string;
+  platform: SocialPlatform;
+  scheduledTime: number;
+  status: 'scheduled' | 'published' | 'failed' | 'draft';
+  caption: string;
+  hashtags: string[];
+  thumbnailUrl?: string;
+  seoData?: SEOData;
+}
+
+export interface ABTest {
+  id: string;
+  name: string;
+  variants: {
+    id: string;
+    thumbnailUrl: string;
+    title: string;
+    metrics?: {
+      ctr: number;
+      avgViewTime: number;
+    }
+  }[];
+  status: 'running' | 'completed' | 'draft';
+  winnerId?: string;
+}
+
+export interface DistributionState {
+  schedules: PublishingSchedule[];
+  abTests: ABTest[];
+  connectedAccounts: {
+    platform: SocialPlatform;
+    username: string;
+    isConnected: boolean;
+  }[];
+}
+
+export interface ComputeNode {
+  id: string;
+  type: 'gpu' | 'edge' | 'cloud' | 'distributed';
+  status: 'active' | 'idle' | 'busy' | 'offline';
+  load: number;
+  region: string;
+  latency: number;
+  temperature?: number;
+  uptime?: number;
+  powerConsumption?: number;
+  logs?: string[];
+}
+
+export interface RenderingPipeline {
+  id: string;
+  name: string;
+  progress: number;
+  speed: string;
+  steps: {
+    name: string;
+    status: 'complete' | 'processing' | 'pending';
+  }[];
+}
+
+export interface InfrastructureState {
+  nodes: ComputeNode[];
+  pipelines: RenderingPipeline[];
+  syncStatus: {
+    lastSynced: number;
+    platform: 'mobile' | 'desktop' | 'web';
+    status: 'synced' | 'syncing' | 'failed';
+  }[];
+  offlineMode: boolean;
+  networkThroughput?: number;
+  totalStorage?: number;
+  edgeCacheSize?: number;
+  renderingTier: 'gpu' | 'edge' | 'cloud' | 'distributed';
+}
+
+export interface BeatSyncSettings {
+  enabled: boolean;
+  intensity: number;
+  syncType: 'cut' | 'zoom' | 'effect';
+}
+
+export interface ChromaKey {
+  enabled: boolean;
+  color: string;
+  intensity: number;
+  shadow: number;
+}
+
+export interface AudioSettings {
+  duckingEnabled: boolean;
+  duckingRatio: number; // 0 to 1, amount to reduce
+}
+
+export interface AnalyticsMetric {
+  label: string;
+  value: string;
+  change: number; // percentage change
+  trend: 'up' | 'down' | 'neutral';
+}
+
+export interface AnalyticsData {
+  views: AnalyticsMetric;
+  engagement: AnalyticsMetric;
+  retention: AnalyticsMetric;
+  reach: AnalyticsMetric;
+  heatmapData: { x: number; y: number }[]; // Retention heatmap data points
+}
+
+export interface BrandKit {
+  name: string;
+  colors: string[];
+  fonts: string[];
+  logos: string[];
+  watermarkUrl?: string;
+}
+
+export interface CreatorTemplate {
+  id: string;
+  name: string;
+  author: string;
+  category: 'trending' | 'gaming' | 'vlog' | 'education' | 'promo';
+  platform: SocialPlatform;
+  thumbnail: string;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  role: 'owner' | 'editor' | 'viewer' | 'admin';
+  avatar?: string;
+  isOnline: boolean;
+  lastActive: number;
+  cursor?: { x: number; y: number };
+  activeClipId?: string;
+}
+
+export interface ProjectComment {
+  id: string;
+  authorId: string;
+  authorName: string;
+  text: string;
+  timestamp: number;
+  timecode: number;
+  resolved: boolean;
+  replies?: ProjectComment[];
+}
+
+export interface VersionEntry {
+  id: string;
+  name: string;
+  commitHash: string;
+  authorId: string;
+  timestamp: number;
+  snapshot: Partial<VideoState>;
+  description?: string;
+}
+
+export interface CloudProject {
+  id: string;
+  name: string;
+  ownerId: string;
+  members: TeamMember[];
+  comments: ProjectComment[];
+  versions: VersionEntry[];
+  sharedAssets: string[]; // URLs or IDs
+  createdAt: number;
+  updatedAt: number;
+  status: 'draft' | 'review' | 'approved' | 'archived';
+}
+
+export interface CollaborationState {
+  activeProjectId?: string;
+  sessionUsers: TeamMember[];
+  isMultiplayerActive: boolean;
+  lastSyncTime: number;
+  liveComments: ProjectComment[];
+  activeAgents: {
+    id: string;
+    type: 'creative' | 'technical' | 'review';
+    status: 'idle' | 'working' | 'thinking';
+  }[];
+}
+
+export interface AssetMetadata {
+  tags: string[];
+  faces?: { id: string; name: string; thumbnail: string }[];
+  sceneDescription?: string;
+  colors?: string[];
+  bitrate?: number;
+  codec?: string;
+  resolution?: { width: number; height: number };
+}
+
+export interface CloudAsset {
+  id: string;
+  name: string;
+  type: 'video' | 'audio' | 'image' | 'font' | 'brand';
+  url: string;
+  thumbnail: string;
+  size: number;
+  path: string; // e.g. "/Brand/Logos"
+  createdAt: number;
+  updatedAt: number;
+  metadata: AssetMetadata;
+  isFavorite: boolean;
+  isBrandAsset: boolean;
+}
+
+export interface SmartCollection {
+  id: string;
+  name: string;
+  query: string; // The semantic search query or filter logic
+  assetIds: string[];
+  icon?: string;
+}
+
+export interface AssetManagerState {
+  library: CloudAsset[];
+  collections: SmartCollection[];
+  searchQuery: string;
+  isSearching: boolean;
+  selectedAssetIds: string[];
+  storageUsage: {
+    total: number;
+    used: number;
+  };
+}
+
+export interface AgentSkill {
+  id: string;
+  name: string;
+  description: string;
+  capability: string; // The underlying model capability or tool
+}
+
+export type AgentRole = 'editor' | 'thumbnail' | 'marketing' | 'storytelling' | 'cinematography' | 'branding' | 'sound' | 'vfx' | 'optimizer' | 'specialist';
+
+export interface AIAgent {
+  id: string;
+  name: string;
+  role: AgentRole;
+  description: string;
+  avatar: string;
+  status: 'online' | 'busy' | 'offline';
+  skills: string[]; // Skill IDs
+  tasks: string[]; // Active task IDs
+  specialization: string;
+  isInstalledFromEcosystem?: boolean;
+}
+
+export interface AgentTask {
+  id: string;
+  agentId: string;
+  type: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  progress: number;
+  result?: any;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface AgentLayerState {
+  agents: AIAgent[];
+  tasks: AgentTask[];
+  skills: AgentSkill[];
+  activeAgentId?: string;
+}
+
+export interface Plugin {
+  id: string;
+  name: string;
+  version: string;
+  author: string;
+  description: string;
+  status: 'active' | 'disabled' | 'error';
+  permissions: string[];
+  type: 'video_effect' | 'audio_fx' | 'automation' | 'ui_extension';
+  isThirdParty: boolean;
+}
+
+export interface WorkflowAutomation {
+  id: string;
+  name: string;
+  trigger: {
+    type: 'on_upload' | 'on_render_start' | 'on_segment_detected' | 'on_team_mention' | 'webhook';
+    config?: any;
+  };
+  actions: {
+    type: 'notify' | 'apply_preset' | 'generate_caption' | 'trigger_webhook' | 'run_agent';
+    params: any;
+  }[];
+  enabled: boolean;
+  lastRun?: number;
+}
+
+export interface EcosystemIntegration {
+  id: string;
+  platform: string;
+  type: 'cloud_storage' | 'social_api' | 'communication' | 'asset_library';
+  status: 'connected' | 'error' | 'disconnected';
+  apiKeyHidden?: boolean;
+}
+
+export interface MarketplaceItem {
+  id: string;
+  name: string;
+  type: 'ai_model' | 'agent_persona' | 'workflow_template' | 'plugin';
+  category: string;
+  author: string;
+  price: number;
+  rating: number;
+  isInstalled: boolean;
+  thumbnail: string;
+}
+
+export interface APILog {
+  id: string;
+  timestamp: number;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'WEBHOOK';
+  endpoint: string;
+  status: number;
+  latency: number;
+}
+
+export interface EcosystemState {
+  plugins: Plugin[];
+  automations: WorkflowAutomation[];
+  integrations: EcosystemIntegration[];
+  marketplace: MarketplaceItem[];
+  apiAccessEnabled: boolean;
+  webhookUrl?: string;
+  logs: APILog[];
+  showDebugger?: boolean;
+}
+export interface ProjectFormat {
+  id: string;
+  name: string;
+  ratio: string;
+  dimensions: { width: number; height: number };
+  icon: string;
+}
+
+export interface ProjectTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+}
+
+export interface VideoState {
+  markers: TimelineMarker[];
+  regions: TimelineRegion[];
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  projectName: string;
+  projectSettings: {
+    resolution: { width: number; height: number };
+    fps: number;
+    colorSpace: 'rec709' | 'aces' | 'srgb';
+    bitDepth: 8 | 10 | 12 | 16;
+    proxyEnabled: boolean;
+  };
+  activeMode: EditorMode;
+  showCommandPalette: boolean;
+  playbackSpeed: number; 
+  aspectRatio: AspectRatio; 
+  activeFilter: FilterPreset;
+  videoClips: VideoClip[];
+  subtitleTrack: SubtitleBlock[];
+  textTrack: TextBlock[]; 
+  audioTrack: AudioBlock[]; 
+  effectTrack: EffectBlock[];
+  shapeTrack: ShapeBlock[];
+  particleTrack: ParticleSystem[];
+  audioSettings: AudioSettings;
+  transform: VideoTransform;
+  adjustment: VideoAdjustment;
+  sequences: Sequence[];
+  activeSequenceId?: string; // Currently edited sequence
+  parentState?: VideoState; // For nesting
+  lastSaved?: number;
+  isAnalyzing: boolean;
+  isGenerating: boolean;
+  isEnhancing: boolean; 
+  isStabilizing: boolean; 
+  generationProgress: number;
+  zoomLevel: number;
+  socialPlatform: SocialPlatform;
+  isAutoCaptioning: boolean;
+  isRemovingBackground: boolean;
+  isGeneratingAvatar: boolean;
+  isTrackingFace: boolean;
+  isAutoCutting: boolean;
+  isRemovingSilence: boolean;
+  isDetectingScenes: boolean;
+  isOptimizingPacing: boolean;
+  isRemovingObject: boolean;
+  isSmoothingMotion: boolean;
+  isDubbing: boolean;
+  isGeneratingClips: boolean;
+  isStabilizingFootage: boolean;
+  isStoryboarding: boolean;
+  isCloningVoice: boolean;
+  isTranslating: boolean;
+  isCleaningAudio: boolean;
+  isReframing: boolean;
+  isStyleTransferring: boolean;
+  isGeneratingMusic: boolean;
+  isGeneratingSFX: boolean;
+  isGeneratingBroll: boolean;
+  isGeneratingScene: boolean;
+  isGeneratingCharacter: boolean;
+  isGeneratingEnvironment: boolean;
+  isGeneratingAnimation: boolean;
+  isGeneratingLighting: boolean;
+  isGeneratingCamera: boolean;
+  isGeneratingThumbnails: boolean;
+  isGeneratingVariants: boolean;
+  isAnalyzingNarrative: boolean;
+  isGeneratingScript: boolean;
+  isGeneratingSocialCaption: boolean;
+  isGeneratingHashtags: boolean;
+  beatSync: BeatSyncSettings;
+  selectedTextId?: string;
+  selectedClipId?: string;
+  selectedAudioId?: string;
+  selectedShapeId?: string;
+  selectedParticleId?: string;
+  selectedIds: string[];
+  chromaKey: ChromaKey;
+  environmentUrl?: string;
+  magneticTimeline: boolean;
+  rippleEdit: boolean;
+  snapSettings: {
+    playhead: boolean;
+    clips: boolean;
+    markers: boolean;
+  };
+  lockedTracks: number[];
+  trackNames: Record<number, string>;
+  trackHeights: Record<number, number>;
+  proxyMode: boolean;
+  multiCamMode: boolean;
+  analytics?: AnalyticsData;
+  brandKit?: BrandKit;
+  activeCreatorTemplateId?: string;
+  isPlatformOptimizing: boolean;
+  isTrackingTrends: boolean;
+  isGeneratingBrandAssets: boolean;
+  isRotoscoping: boolean;
+  isTrackingMotion: boolean;
+  isGeneratingParticles: boolean;
+  isApplyingAudioFX: boolean;
+  isAnalyzingAudio: boolean;
+  audioMetering: {
+    peak: number[];
+    integrated: number;
+    shortTerm: number;
+  };
+  showCreatorHub: boolean;
+  collaboration: CollaborationState;
+  currentProject?: CloudProject;
+  assetManager: AssetManagerState;
+  agentLayer: AgentLayerState;
+  distribution: DistributionState;
+  history: {
+    past: VideoState[];
+    future: VideoState[];
+  };
+}
+
+export type EditorMode = 'media' | 'text' | 'audio' | 'filters' | 'effects' | 'generator' | 'templates' | 'ratio' | 'motion' | 'color' | 'assistant' | 'agents' | 'collaboration';
+export type RightPanelTab = 'properties' | 'assistant' | 'shortcuts';
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'model' | 'system';
+  content: string;
+  isFunctionCall?: boolean;
+}
+
+export enum ToolNames {
+  ADD_SUBTITLE = 'add_subtitle',
+  ADD_TEXT = 'add_text',
+  SET_FILTER = 'set_filter',
+  ADJUST_TRANSFORM = 'adjust_transform',
+  ADD_EFFECT = 'add_effect',
+  SET_CLIP_TRANSITION = 'set_clip_transition',
+  SET_AUDIO_VOLUME = 'set_audio_volume',
+  GENERATE_IMAGE = 'generate_image',
+  GENERATE_VIDEO = 'generate_video',
+  SYNTHESIZE_DIALOGUE = 'synthesize_dialogue',
+  SET_DUCKING = 'set_ducking',
+  SET_CHROMA_KEY = 'set_chroma_key',
+  ENHANCE_VIDEO = 'enhance_video',
+  STABILIZE_VIDEO = 'stabilize_video',
+  AUTO_CAPTION = 'auto_caption',
+  REMOVE_BACKGROUND = 'remove_background',
+  APPLY_TEMPLATE = 'apply_template',
+  SET_BEAT_SYNC = 'set_beat_sync',
+  GENERATE_AVATAR = 'generate_avatar',
+  ENABLE_FACE_TRACKING = 'enable_face_tracking',
+  AI_VOICEOVER = 'ai_voiceover',
+  SET_COLOR_GRADE = 'set_color_grade',
+  AUTO_REFRAME = 'auto_reframe',
+  SET_SPATIAL_AUDIO = 'set_spatial_audio',
+  AUTO_CUT = 'auto_cut',
+  REMOVE_SILENCE = 'remove_silence',
+  GENERATE_HIGHLIGHTS = 'generate_highlights',
+  DETECT_SCENES = 'detect_scenes',
+  OPTIMIZE_PACING = 'optimize_pacing',
+  SUGGEST_STORYBOARD = 'suggest_storyboard',
+  TRANSLATE_SUBTITLES = 'translate_subtitles',
+  CLONE_VOICE = 'clone_voice',
+  CLEANUP_AUDIO = 'cleanup_audio',
+  REMOVE_OBJECT = 'remove_object',
+  SMOOTH_MOTION = 'smooth_motion',
+  GENERATE_THUMBNAILS = 'generate_thumbnails',
+  GENERATE_TITLES = 'generate_titles',
+  GENERATE_SCRIPT = 'generate_script',
+  GENERATE_SOCIAL_CAPTION = 'generate_social_caption',
+  GENERATE_HASHTAGS = 'generate_hashtags',
+  AI_DUBBING = 'ai_dubbing',
+  GENERATE_CLIPS = 'generate_clips',
+  TRACK_OBJECT = 'track_object',
+  STABILIZE_FOOTAGE = 'stabilize_footage',
+  IMAGE_TO_VIDEO = 'image_to_video',
+  VIDEO_STYLE_TRANSFER = 'video_style_transfer',
+  GENERATE_SCENE = 'generate_scene',
+  GENERATE_CHARACTER = 'generate_character',
+  GENERATE_ANIMATION = 'generate_animation',
+  GENERATE_BROLL = 'generate_broll',
+  GENERATE_MUSIC = 'generate_music',
+  GENERATE_SFX = 'generate_sfx',
+  GENERATE_ENVIRONMENT = 'generate_environment',
+  GENERATE_LIGHTING = 'generate_lighting',
+  GENERATE_CAMERA_MOVEMENT = 'generate_camera_movement',
+  OPTIMIZE_FOR_PLATFORM = 'optimize_for_platform',
+  TRACK_TRENDS = 'track_trends',
+  GENERATE_BRAND_KIT = 'generate_brand_kit',
+  APPLY_BRAND_KIT = 'apply_brand_kit',
+  SHOW_ANALYTICS = 'show_analytics',
+  GENERATE_VERTICAL = 'generate_vertical',
+  SEARCH_VIRAL_SOUNDS = 'search_viral_sounds',
+  CREATE_SPONSORSHIP_ASSETS = 'create_sponsorship_assets',
+  ADD_SHAPE = 'add_shape',
+  CREATE_PARTICLE_SYSTEM = 'create_particle_system',
+  APPLY_MOTION_PRESET = 'apply_motion_preset',
+  START_ROTOSCOPING = 'start_rotoscoping',
+  START_MOTION_TRACKING = 'start_motion_tracking',
+  SET_BLEND_MODE = 'set_blend_mode',
+  ADD_MASK = 'add_mask',
+  SET_EDITOR_MODE = 'set_editor_mode',
+  SET_AUDIO_PROPERTY = 'set_audio_property',
+  SET_SPATIAL_STATE = 'set_spatial_state',
+  SET_ASSET_MANAGER_STATE = 'set_asset_manager_state',
+  SET_AGENT_STATE = 'set_agent_state',
+  TOGGLE_COMMAND_PALETTE = 'toggle_command_palette',
+  APPLY_DIRECTORIAL_PRESET = 'apply_directorial_preset',
+}
+
+export type ToolArgs = Record<string, any>;

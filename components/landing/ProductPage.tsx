@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Edit, Mic, Video, Sparkles, Zap, Activity, BarChart2, Users, Flame } from 'lucide-react';
+import { Edit, Mic, Video, Sparkles, Zap, Activity, BarChart2, Users, Flame, Target } from 'lucide-react';
 import { InteractionDemo } from './InteractionDemo';
 import { AgentFeedbackLoop } from './AgentFeedbackLoop';
 import { Skeleton } from '../ui/Skeleton';

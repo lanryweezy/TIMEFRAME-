@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Meta Tags (#76) -->
+    <title>Timeframe Studio | AI-Powered Video Editor</title>
+    <meta name="description" content="Professional video editing with AI-powered features. Edit, enhance, and create stunning videos with intelligent automation." />
+    
+    <!-- Security: Content Security Policy (#71)
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://esm.sh;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com data:;
+      img-src 'self' data: blob: https:;
+      media-src 'self' blob: data: https:;
+      connect-src 'self' https://generativelanguage.googleapis.com https://api.google.com https:;
+      worker-src 'self' blob:;
+      frame-src 'self' blob:;
+    " />
+    -->
+    <meta name="keywords" content="video editor, AI video editing, creative studio, video production" />
+    <meta name="author" content="Timeframe Studio" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Timeframe Studio | AI-Powered Video Editor" />
+    <meta property="og:description" content="Professional video editing with AI-powered features" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Preload Critical Assets (#26) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" as="style" />
+    <link rel="preload" href="/index.css" as="style" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #000000;
+        color: #f8fafc;
+        overflow: hidden;
+      }
+      .font-display {
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 0.2em;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      /* Ultra-thin scrollbar for stealth look */
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000000;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1a1a1a;
+        border-radius: 2px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #2a2a2a;
+      }
+
+      /* Simple Stealth Glow */
+      .stealth-border {
+        border: 1px solid #1a1a1a;
+      }
+      .active-glow {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+      }
+      input[type='range'] {
+        -webkit-appearance: none;
+        background: #1a1a1a;
+        height: 2px;
+      }
+      input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+        border: 2px solid #000000;
+      }
+
+      @keyframes slide {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes glitch {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-2px, 1px);
+        }
+        40% {
+          transform: translate(-2px, -1px);
+        }
+        60% {
+          transform: translate(2px, 1px);
+        }
+        80% {
+          transform: translate(2px, -1px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+
+      @keyframes scale-in {
+        0% {
+          transform: scale(0.8) translateY(20px);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

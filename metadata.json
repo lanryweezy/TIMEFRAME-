@@ -1,0 +1,6 @@
+{
+  "name": "Timeframe",
+  "description": "Professional spatial AI video editor with human-centric design, featuring high-performance distributed GPU rendering, edge persistence, real-time collaboration, and global asset management with neural semantic search.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": []
+}

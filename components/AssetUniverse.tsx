@@ -37,9 +37,9 @@ export const AssetUniverse = ({ state }: { state: VideoState }) => {
         </h2>
         <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 bg-panel-base rounded-lg p-1 border border-panel-border">
-                <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-1 hover:bg-zinc-800 rounded"><ZoomOut className="w-4 h-4" /></button>
+                <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-1 hover:bg-zinc-800 rounded" aria-label="Zoom Out"><ZoomOut className="w-4 h-4" /></button>
                 <span className="text-xs text-zinc-500 w-8 text-center">{Math.round(zoom * 100)}%</span>
-                <button onClick={() => setZoom(z => Math.min(2.0, z + 0.1))} className="p-1 hover:bg-zinc-800 rounded"><ZoomIn className="w-4 h-4" /></button>
+                <button onClick={() => setZoom(z => Math.min(2.0, z + 0.1))} className="p-1 hover:bg-zinc-800 rounded" aria-label="Zoom In"><ZoomIn className="w-4 h-4" /></button>
             </div>
             <div className="relative w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />

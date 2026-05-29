@@ -95,14 +95,14 @@ export const SourceMonitor: React.FC<SourceMonitorProps> = ({ asset, onAddToTime
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={setIn} className="p-1.5 hover:bg-white/10 rounded transition-colors" title="Mark In (I)">
+            <button onClick={setIn} className="p-1.5 hover:bg-white/10 rounded transition-colors" title="Mark In (I)" aria-label="Mark In">
                 <span className="text-[10px] font-black text-blue-400">IN</span>
             </button>
-            <button onClick={setOut} className="p-1.5 hover:bg-white/10 rounded transition-colors" title="Mark Out (O)">
+            <button onClick={setOut} className="p-1.5 hover:bg-white/10 rounded transition-colors" title="Mark Out (O)" aria-label="Mark Out">
                 <span className="text-[10px] font-black text-rose-400">OUT</span>
             </button>
             <div className="h-4 w-px bg-white/10 mx-1" />
-            <button className="text-zinc-500 hover:text-white transition-colors">
+            <button className="text-zinc-500 hover:text-white transition-colors" aria-label="Skip Back">
                 <SkipBack className="w-3.5 h-3.5" />
             </button>
             <button onClick={togglePlay} className="text-white hover:scale-110 transition-transform">

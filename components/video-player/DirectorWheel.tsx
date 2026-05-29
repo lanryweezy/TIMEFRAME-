@@ -64,6 +64,7 @@ export const DirectorWheel: React.FC<DirectorWheelProps> = ({
                     setIsOpen(false);
                   }}
                   className={`absolute w-12 h-12 rounded-full flex items-center justify-center text-white shadow-2xl border border-white/20 ${tool.color}`}
+                  aria-label={tool.label}
                 >
                   <tool.icon className="w-5 h-5" />
                 </motion.button>
@@ -77,11 +78,11 @@ export const DirectorWheel: React.FC<DirectorWheelProps> = ({
               exit={{ opacity: 0, y: 20 }}
               className="absolute -top-32 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-zinc-900/90 backdrop-blur-xl p-3 rounded-full border border-white/10"
             >
-              <button onClick={() => onSeek(-1)} className="p-2 hover:bg-white/5 rounded-full"><ChevronLeft className="w-5 h-5" /></button>
-              <button onClick={onTogglePlay} className="p-4 bg-studio-accent rounded-full text-black">
+              <button onClick={() => onSeek(-1)} className="p-2 hover:bg-white/5 rounded-full" aria-label="Seek Backward"><ChevronLeft className="w-5 h-5" /></button>
+              <button onClick={onTogglePlay} className="p-4 bg-studio-accent rounded-full text-black" aria-label={isPlaying ? "Pause" : "Play"}>
                 {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
               </button>
-              <button onClick={() => onSeek(1)} className="p-2 hover:bg-white/5 rounded-full"><ChevronRight className="w-5 h-5" /></button>
+              <button onClick={() => onSeek(1)} className="p-2 hover:bg-white/5 rounded-full" aria-label="Seek Forward"><ChevronRight className="w-5 h-5" /></button>
             </motion.div>
           </>
         )}

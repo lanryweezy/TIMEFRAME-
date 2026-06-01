@@ -43,7 +43,7 @@ interface TimelineClipProps {
   children?: React.ReactNode;
 }
 
-export const TimelineClip = React.memo<TimelineClipProps>(
+const TimelineClipComponent: React.FC<TimelineClipProps> =
   ({
     item,
     trackName,
@@ -290,5 +290,23 @@ export const TimelineClip = React.memo<TimelineClipProps>(
       {renderKeyframeLanes()}
     </div>
     );
-  },
-);
+};
+
+export const TimelineClip = React.memo(TimelineClipComponent, (prevProps, nextProps) => {
+  const prevKeys = Object.keys(prevProps) as (keyof typeof prevProps)[];
+  const nextKeys = Object.keys(nextProps);
+
+  if (prevKeys.length !== nextKeys.length) return false;
+
+  for (let i = 0; i < prevKeys.length; i++) {
+    const key = prevKeys[i];
+    if (key === 'currentTime') continue;
+    if (prevProps[key] !== nextProps[key]) return false;
+  }
+
+  const prevIsActive = prevProps.currentTime >= prevProps.item.startTime && prevProps.currentTime <= prevProps.item.startTime + prevProps.item.duration;
+  const nextIsActive = nextProps.currentTime >= nextProps.item.startTime && nextProps.currentTime <= nextProps.item.startTime + nextProps.item.duration;
+
+  if (prevIsActive !== nextIsActive) return false;
+  return true;
+});

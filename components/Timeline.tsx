@@ -126,15 +126,30 @@ const Timeline: React.FC<TimelineProps> = ({
     item: any;
     trackName: keyof VideoState;
   } | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const lastMousePos = useRef({ x: 0, y: 0 });
   const [initialDistance, setInitialDistance] = useState<number | null>(null);
 
   useEffect(() => {
+    let rafId: number;
     const handleMouseMoveGlobal = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      lastMousePos.current = { x: e.clientX, y: e.clientY };
+      if (toolbarRef.current) {
+        // Use requestAnimationFrame to batch DOM updates for performance
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          if (toolbarRef.current) {
+            toolbarRef.current.style.left = `${lastMousePos.current.x}px`;
+            toolbarRef.current.style.top = `${lastMousePos.current.y - 70}px`;
+          }
+        });
+      }
     };
     window.addEventListener('mousemove', handleMouseMoveGlobal);
-    return () => window.removeEventListener('mousemove', handleMouseMoveGlobal);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMoveGlobal);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -1011,10 +1026,11 @@ const Timeline: React.FC<TimelineProps> = ({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 15, scale: 0.95 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  ref={toolbarRef}
                   className="fixed z-[100] flex items-center gap-2 p-1.5 bg-zinc-900/98 backdrop-blur-3xl border border-white/20 rounded-xl shadow-[0_25px_50px_rgba(0,0,0,0.9)] hardware-shadow pointer-events-auto"
                   style={{
-                    left: `${mousePos.x}px`,
-                    top: `${mousePos.y - 70}px`,
+                    left: `${lastMousePos.current.x}px`,
+                    top: `${lastMousePos.current.y - 70}px`,
                     transform: 'translateX(-50%)',
                   }}
                   onClick={(e) => e.stopPropagation()}

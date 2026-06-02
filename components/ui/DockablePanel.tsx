@@ -75,12 +75,16 @@ export const DockablePanel: React.FC<DockablePanelProps> = ({
           <button
             onClick={handleToggleFloating}
             className="p-1 hover:bg-white/10 rounded transition-colors text-zinc-500 hover:text-white"
+            aria-label={panel.isFloating ? `Dock ${title} panel` : `Float ${title} panel`}
+            title={panel.isFloating ? "Dock panel" : "Float panel"}
           >
             {panel.isFloating ? <Minimize2 className="w-3 h-3" /> : <Maximize2 className="w-3 h-3" />}
           </button>
           <button
             onClick={handleClose}
             className="p-1 hover:bg-red-500/20 rounded transition-colors text-zinc-500 hover:text-red-400"
+            aria-label={`Close ${title} panel`}
+            title="Close panel"
           >
             <X className="w-3 h-3" />
           </button>

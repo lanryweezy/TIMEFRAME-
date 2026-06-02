@@ -31,6 +31,7 @@ import {
   Brain,
   ChevronRight,
   ChevronDown,
+  Pause
 } from 'lucide-react';
 
 interface AudioPanelProps {
@@ -705,14 +706,19 @@ const AudioPanel: React.FC<AudioPanelProps> = ({
 
       <div className="p-5 border-t border-studio-border bg-black/80 backdrop-blur-xl flex items-center gap-6">
         <div className="flex items-center gap-4">
-          <button className="text-zinc-600 hover:text-white transition-colors"><SkipBack className="w-5 h-5" /></button>
+          <button aria-label="Previous frame" className="text-zinc-600 hover:text-white transition-colors"><SkipBack className="w-5 h-5" /></button>
           <button 
+            aria-label={state.isPlaying ? "Pause" : "Play"}
             className="w-10 h-10 bg-studio-accent rounded-full text-black flex items-center justify-center hover:scale-110 transition-transform"
             onClick={() => handleSendMessage("Toggle playback.")}
           >
-            <Play className="w-5 h-5 fill-current ml-1" />
+            {state.isPlaying ? (
+              <Pause className="w-5 h-5 fill-current" />
+            ) : (
+              <Play className="w-5 h-5 fill-current ml-1" />
+            )}
           </button>
-          <button className="text-zinc-600 hover:text-white transition-colors"><SkipForward className="w-5 h-5" /></button>
+          <button aria-label="Next frame" className="text-zinc-600 hover:text-white transition-colors"><SkipForward className="w-5 h-5" /></button>
         </div>
         <div className="flex-1 flex flex-col gap-2">
             <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">

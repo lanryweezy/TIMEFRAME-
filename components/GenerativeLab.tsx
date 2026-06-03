@@ -116,7 +116,7 @@ export const GenerativeLab: React.FC<GenerativeLabProps> = ({
                             <div className={`p-2.5 rounded-xl bg-black/40 ${tool.color}`}>
                                 <tool.icon className="w-5 h-5" />
                             </div>
-                            <button className="p-1.5 rounded-md hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button aria-label="More info" className="p-1.5 rounded-md hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Info className="w-3.5 h-3.5 text-zinc-500" />
                             </button>
                         </div>

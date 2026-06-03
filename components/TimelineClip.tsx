@@ -301,12 +301,24 @@ export const TimelineClip = React.memo(TimelineClipComponent, (prevProps, nextPr
   for (let i = 0; i < prevKeys.length; i++) {
     const key = prevKeys[i];
     if (key === 'currentTime') continue;
+    if (key === 'dragState') continue; // Handled separately
     if (prevProps[key] !== nextProps[key]) return false;
   }
 
+  // Derived state check for currentTime
   const prevIsActive = prevProps.currentTime >= prevProps.item.startTime && prevProps.currentTime <= prevProps.item.startTime + prevProps.item.duration;
   const nextIsActive = nextProps.currentTime >= nextProps.item.startTime && nextProps.currentTime <= nextProps.item.startTime + nextProps.item.duration;
-
   if (prevIsActive !== nextIsActive) return false;
+
+  // Derived state check for dragState
+  // Only re-render if this specific clip was dragging and stopped, or wasn't dragging and started
+  const prevIsDragging = prevProps.dragState?.id === prevProps.item.id;
+  const nextIsDragging = nextProps.dragState?.id === nextProps.item.id;
+
+  if (prevIsDragging !== nextIsDragging) return false;
+
+  // If this clip is actively being dragged, we must re-render to update the visual transform
+  if (nextIsDragging && prevProps.dragState !== nextProps.dragState) return false;
+
   return true;
 });

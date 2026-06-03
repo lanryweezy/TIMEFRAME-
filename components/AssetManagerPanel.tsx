@@ -213,7 +213,7 @@ const AssetManagerPanel: React.FC<AssetManagerPanelProps> = ({ state, handleSend
         <h3 className="text-[12px] font-bold uppercase tracking-widest text-studio-accent">
           Metadata Engine
         </h3>
-        <button onClick={() => setSelectedAssetId(null)} className="text-zinc-500 hover:text-white">
+        <button aria-label="Close" onClick={() => setSelectedAssetId(null)} className="text-zinc-500 hover:text-white">
           <Plus className="w-5 h-5 rotate-45" />
         </button>
       </div>
@@ -344,7 +344,7 @@ const AssetManagerPanel: React.FC<AssetManagerPanelProps> = ({ state, handleSend
         <button className="flex-1 py-3 bg-studio-accent text-black text-[9px] font-black uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-95 transition-all">
           Insert Asset
         </button>
-        <button className="p-3 bg-zinc-900 border border-white/5 text-zinc-400 rounded-xl hover:text-white transition-colors">
+        <button aria-label="Download asset" className="p-3 bg-zinc-900 border border-white/5 text-zinc-400 rounded-xl hover:text-white transition-colors">
           <Download className="w-4 h-4" />
         </button>
       </div>
@@ -381,12 +381,14 @@ const AssetManagerPanel: React.FC<AssetManagerPanelProps> = ({ state, handleSend
             </button>
             <div className="p-1 bg-white/[0.03] rounded-xl flex items-center gap-1">
               <button
+                aria-label="Grid view"
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-white/10 text-studio-accent shadow-sm' : 'text-zinc-600 hover:text-zinc-400'}`}
               >
                 <Grid className="w-4 h-4" />
               </button>
               <button
+                aria-label="List view"
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-white/10 text-studio-accent shadow-sm' : 'text-zinc-600 hover:text-zinc-400'}`}
               >

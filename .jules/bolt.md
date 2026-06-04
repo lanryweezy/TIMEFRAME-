@@ -9,3 +9,6 @@
 ## 2024-06-03 - O(N) Re-renders Caused by Shared Drag State
 **Learning:** In list/timeline rendering where an interactive state like `dragState` (updated constantly on mousemove) is passed to *every* child item, standard `React.memo` still breaks and causes O(N) re-renders because the prop reference changes for all items.
 **Action:** When a high-frequency global state object is passed to many children, add a custom comparator in `React.memo` to explicitly check if the ID inside the shared state matches the child's ID. If `prevProps.dragState?.id !== item.id` and `nextProps.dragState?.id !== item.id`, the child should return `true` (skip re-render).
+## 2024-06-10 - O(N) Re-renders Caused by Inline Children in Custom Comparator
+**Learning:** When using a blacklist-style custom comparator loop in `React.memo` (e.g., `if (prevProps[key] !== nextProps[key]) return false;`), inline-rendered `children` props passed from a parent (like `{renderItem(item)}`) will constantly cause shallow equality checks to fail, defeating memoization.
+**Action:** Always explicitly whitelist or bypass the `children` key in custom `React.memo` loops when the component relies on derived state checks for its render logic, allowing the targeted derived state logic to properly control updates.

@@ -302,6 +302,7 @@ export const TimelineClip = React.memo(TimelineClipComponent, (prevProps, nextPr
     const key = prevKeys[i];
     if (key === 'currentTime') continue;
     if (key === 'dragState') continue; // Handled separately
+    if (key === 'children') continue; // Handled by derived state since children are created dynamically
     if (prevProps[key] !== nextProps[key]) return false;
   }
 

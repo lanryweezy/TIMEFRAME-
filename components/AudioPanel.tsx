@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { VideoState, AudioBlock } from '../types';
 import { audioEngine } from '../lib/audioEngine';
+import { readSharedTime } from '../lib/sharedState';
 import {
   Volume2,
   Music,
@@ -156,6 +157,27 @@ const AudioPanel: React.FC<AudioPanelProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'mixer' | 'ai' | 'fx' | 'library'>('mixer');
   const [masterLevel, setMasterLevel] = useState(0);
+
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const timecodeRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    let frameId: number;
+    const updatePlayhead = () => {
+      if (state.duration > 0) {
+        const time = readSharedTime();
+        if (progressBarRef.current) {
+          progressBarRef.current.style.width = `${(time / state.duration) * 100}%`;
+        }
+        if (timecodeRef.current) {
+          timecodeRef.current.innerText = new Date(time * 1000).toISOString().substr(14, 5);
+        }
+      }
+      frameId = requestAnimationFrame(updatePlayhead);
+    };
+    frameId = requestAnimationFrame(updatePlayhead);
+    return () => cancelAnimationFrame(frameId);
+  }, [state.duration]);
 
   // Real-time Master Level Monitoring
   useEffect(() => {
@@ -722,10 +744,10 @@ const AudioPanel: React.FC<AudioPanelProps> = ({
         </div>
         <div className="flex-1 flex flex-col gap-2">
             <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
-               <div className="absolute inset-y-0 left-0 bg-studio-accent shadow-[0_0_10px_#3b82f6]" style={{ width: `${(state.currentTime / state.duration) * 100}%` }} />
+               <div ref={progressBarRef} className="absolute inset-y-0 left-0 bg-studio-accent shadow-[0_0_10px_#3b82f6]" />
             </div>
             <div className="flex justify-between text-[8px] font-mono text-zinc-500 uppercase tracking-tighter">
-                <span>{new Date(state.currentTime * 1000).toISOString().substr(14, 5)}</span>
+                <span ref={timecodeRef}>00:00</span>
                 <span>{new Date(state.duration * 1000).toISOString().substr(14, 5)}</span>
             </div>
         </div>

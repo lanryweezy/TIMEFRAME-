@@ -12,3 +12,6 @@
 ## 2024-06-10 - O(N) Re-renders Caused by Inline Children in Custom Comparator
 **Learning:** When using a blacklist-style custom comparator loop in `React.memo` (e.g., `if (prevProps[key] !== nextProps[key]) return false;`), inline-rendered `children` props passed from a parent (like `{renderItem(item)}`) will constantly cause shallow equality checks to fail, defeating memoization.
 **Action:** Always explicitly whitelist or bypass the `children` key in custom `React.memo` loops when the component relies on derived state checks for its render logic, allowing the targeted derived state logic to properly control updates.
+## 2024-06-10 - Bypassing React for Continuous Text Updates via SharedArrayBuffer
+**Learning:** React state updates (`setState`) triggered on every frame by highly frequent continuous events (like a running playhead advancing) cause severe top-down rendering trees and layout thrashing, even with virtualization.
+**Action:** For continuous components like `TimecodeDisplay`, attach a `useRef` directly to a DOM element, read the continuous value from a `SharedArrayBuffer` (via `readSharedTime`), and manually overwrite `ref.current.innerHTML` inside a `requestAnimationFrame` loop. This achieves 100x performance scaling by fully sidestepping the Virtual DOM diffing process while maintaining smooth 60/120fps display updates.

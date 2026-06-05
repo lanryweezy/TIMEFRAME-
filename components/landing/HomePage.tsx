@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
-import { Play, Zap, Sparkles, Monitor, Activity, ShieldCheck, Cpu } from 'lucide-react';
+import { Play, Zap, Monitor, Activity, ShieldCheck, Cpu } from 'lucide-react';
 
-export const HomePage = ({ onStart }: { onStart: () => void }) => {
+export const HomePage = ({ onStart, onNavigate }: { onStart: () => void, onNavigate: (page: string) => void }) => {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98]);
@@ -249,6 +249,44 @@ export const HomePage = ({ onStart }: { onStart: () => void }) => {
               </p>
               <div className="w-1 h-32 bg-gradient-to-b from-neon-purple to-transparent rounded-full" />
            </motion.div>
+        </div>
+
+        {/* Case Studies Showcase */}
+        <div className="py-40 w-full">
+           <motion.div
+             initial={{ opacity: 0, y: 30 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true }}
+             className="text-center mb-24"
+           >
+              <h2 className="text-5xl md:text-7xl font-black tracking-tightest tracking-tighter text-white">Proof of Impact.</h2>
+           </motion.div>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto px-10">
+              {[
+                { title: "Streaming Giant Reduces Edit Time by 80%", id: "case-study-1", desc: "Linear manual editing caused production bottlenecks." },
+                { title: "Independent Studio Scales to 50 Videos/Month", id: "case-study-2", desc: "Deployed generative actors and automated pacing analysis." }
+              ].map(study => (
+                 <motion.div
+                    key={study.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => {
+                       onNavigate(study.id);
+                       window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="glass p-12 rounded-[3rem] border border-white/5 hover:border-electric-blue/50 transition-all cursor-pointer group flex flex-col justify-between space-y-8"
+                 >
+                    <div>
+                       <h3 className="text-3xl font-extrabold text-white mb-4 leading-tight group-hover:text-electric-blue transition-colors">{study.title}</h3>
+                       <p className="text-studio-text text-xl leading-relaxed opacity-70">{study.desc}</p>
+                    </div>
+                    <div className="flex items-center gap-4 text-electric-blue font-bold uppercase tracking-[.2em] text-sm">
+                       Read Case Study <span className="text-xl leading-none">&rarr;</span>
+                    </div>
+                 </motion.div>
+              ))}
+           </div>
         </div>
 
         {/* Final Statement: The Choice */}

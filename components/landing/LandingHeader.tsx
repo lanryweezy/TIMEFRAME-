@@ -47,9 +47,9 @@ export const LandingHeader = ({
         </nav>
 
         <div className="flex items-center gap-8">
-          <a href="#" className="text-[11px] font-black uppercase tracking-[.4em] text-white/40 hover:text-white transition-colors">
+          <button onClick={onStart} className="text-[11px] font-black uppercase tracking-[.4em] text-white/40 hover:text-white transition-colors cursor-pointer">
             Log in
-          </a>
+          </button>
           <button
             onClick={onStart}
             aria-label="Get Started"

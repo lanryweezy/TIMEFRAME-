@@ -69,7 +69,7 @@ export const SceneDetector: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                 <span className="text-[10px] text-zinc-500 font-bold uppercase">Frame-Accurate Saliency Mapping</span>
              </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full text-zinc-500 hover:text-white transition-colors">
+          <button aria-label="Close" onClick={onClose} className="p-2 hover:bg-white/5 rounded-full text-zinc-500 hover:text-white transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>

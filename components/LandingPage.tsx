@@ -27,7 +27,7 @@ export const LandingPage = ({ onStart }: { onStart: () => void }) => {
       case 'ai features':
         return <ProductPage onNavigate={setCurrentPage} />;
       case 'pricing':
-        return <PricingPage />;
+        return <PricingPage onStart={onStart} />;
       case 'solutions':
       case 'resources':
       case 'about':
@@ -38,7 +38,7 @@ export const LandingPage = ({ onStart }: { onStart: () => void }) => {
       case 'case-study-2':
         return <CaseStudyPage id={currentPage} />;
       default:
-        return <HomePage onStart={onStart} />;
+        return <HomePage onStart={onStart} onNavigate={setCurrentPage} />;
     }
   };
 
@@ -65,7 +65,7 @@ export const LandingPage = ({ onStart }: { onStart: () => void }) => {
         </AnimatePresence>
       </main>
 
-      <LandingFooter />
+      <LandingFooter onNavigate={setCurrentPage} />
       <ScrollToTop />
     </div>
   );

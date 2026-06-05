@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LandingFooter = () => {
+export const LandingFooter = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
   return (
     <footer className="py-40 border-t border-white/5 bg-[#050505]">
       <div className="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-12 gap-20">
@@ -32,7 +32,13 @@ export const LandingFooter = () => {
                  <ul className="space-y-6">
                     {col.links.map(link => (
                        <li key={link}>
-                          <a href="#" className="text-[11px] font-black uppercase tracking-[.4em] text-white/40 hover:text-white transition-colors">{link}</a>
+                          <button onClick={() => {
+                            if (link === 'Developers') onNavigate('developers');
+                            else if (col.title === 'Company' || col.title === 'Platform') onNavigate('about');
+                            else if (col.title === 'Ecosystem') onNavigate('resources');
+                            else onNavigate('home');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }} className="text-[11px] font-black uppercase tracking-[.4em] text-white/40 hover:text-white transition-colors cursor-pointer text-left">{link}</button>
                        </li>
                     ))}
                  </ul>

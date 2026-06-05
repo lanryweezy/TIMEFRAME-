@@ -120,7 +120,7 @@ export const Waveform: React.FC<WaveformProps> = ({ id, url, data, transients, d
               className="flex-1 rounded-sm transition-all duration-300"
               style={{
                 height: `${Math.max(4, height)}%`,
-                backgroundColor: isActive ? color : 'rgba(255,255,255,0.1)',
+                backgroundColor: 'rgba(255,255,255,0.1)',
               }}
             />
           );

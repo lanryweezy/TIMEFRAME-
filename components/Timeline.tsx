@@ -508,7 +508,7 @@ const Timeline: React.FC<TimelineProps> = ({
                 url={item.url}
                 transients={item.transients}
                 duration={item.duration}
-                progress={((state.currentTime - item.startTime) / item.duration) * 100}
+                startTime={item.startTime}
                 color="#06b6d4"
               />
             </div>

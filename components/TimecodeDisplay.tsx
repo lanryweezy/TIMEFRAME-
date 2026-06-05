@@ -3,8 +3,9 @@
  * Precise timecodes (HH:MM:SS:FF) for timeline and video player
  */
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { readSharedTime } from '../lib/sharedState';
 
 interface TimecodeDisplayProps {
   currentTime: number;
@@ -25,6 +26,8 @@ export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
   onSeek,
   className = '',
 }) => {
+  const timecodeRef = useRef<HTMLDivElement>(null);
+
   const formatTimecode = (time: number): string => {
     const totalSeconds = Math.floor(time);
     const frames = Math.floor((time % 1) * frameRate);
@@ -56,14 +59,34 @@ export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
     onSeek(Math.max(0, Math.min(duration, time)));
   };
 
+  useEffect(() => {
+    let frameId: number;
+    const update = () => {
+      if (timecodeRef.current) {
+        const time = readSharedTime() ?? currentTime;
+        let text = formatTimecode(time);
+        if (showFrameCount) {
+          const frames = Math.floor((time % 1) * frameRate).toString().padStart(2, '0');
+          text += ` <span class="text-studio-accent ml-1">(${frames}f)</span>`;
+        }
+        timecodeRef.current.innerHTML = text;
+      }
+      frameId = requestAnimationFrame(update);
+    };
+    frameId = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(frameId);
+  }, [frameRate, showFrameCount, format, currentTime]);
+
   return (
     <motion.div
+      ref={timecodeRef}
       className={`font-mono text-xs font-bold text-studio-text-high ${className}`}
       onClick={handleClick}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       title="Click to seek"
     >
+      {/* Initial render content will be overwritten by the effect */}
       {formatTimecode(currentTime)}
       {showFrameCount && (
         <span className="text-studio-accent ml-1">
@@ -81,6 +104,8 @@ export const TimelineTimecode: React.FC<{
   showFrameCount?: boolean;
   position?: 'top' | 'bottom';
 }> = ({ time, frameRate = 30, showFrameCount = true, position = 'bottom' }) => {
+  const timecodeRef = useRef<HTMLDivElement>(null);
+
   const formatTimecode = (t: number): string => {
     const totalSeconds = Math.floor(t);
     const frames = Math.floor((t % 1) * frameRate);
@@ -92,8 +117,21 @@ export const TimelineTimecode: React.FC<{
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${frames.toString().padStart(2, '0')}`;
   };
 
+  useEffect(() => {
+    let frameId: number;
+    const update = () => {
+      if (timecodeRef.current) {
+        const sharedTime = readSharedTime() ?? time;
+        timecodeRef.current.textContent = formatTimecode(sharedTime);
+      }
+      frameId = requestAnimationFrame(update);
+    };
+    frameId = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(frameId);
+  }, [frameRate, time]);
+
   return (
-    <div className={`absolute text-[9px] font-mono text-studio-text/70 ${position === 'top' ? 'top-0' : 'bottom-0'}`}>
+    <div ref={timecodeRef} className={`absolute text-[9px] font-mono text-studio-text/70 ${position === 'top' ? 'top-0' : 'bottom-0'}`}>
       {formatTimecode(time)}
     </div>
   );

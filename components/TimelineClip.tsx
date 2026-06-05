@@ -302,7 +302,10 @@ export const TimelineClip = React.memo(TimelineClipComponent, (prevProps, nextPr
     const key = prevKeys[i];
     if (key === 'currentTime') continue;
     if (key === 'dragState') continue; // Handled separately
-    if (key === 'children') continue; // Handled by derived state since children are created dynamically
+    // ⚡ Bolt Performance Fix:
+    // `children` is passed as an inline render prop, meaning it creates a new reference on every single render.
+    // By skipping the shallow comparison of `children`, we prevent O(N) unnecessary re-renders of the entire timeline.
+    if (key === 'children') continue;
     if (prevProps[key] !== nextProps[key]) return false;
   }
 

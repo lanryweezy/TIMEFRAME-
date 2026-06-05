@@ -19,6 +19,7 @@
     "@sentry/react": "^8.0.0",
     "@types/react-virtualized-auto-sizer": "^1.0.4",
     "@types/react-window": "^1.8.8",
+    "@xmldom/xmldom": "^0.9.10",
     "idb": "^8.0.3",
     "lucide-react": "^0.561.0",
     "motion": "^12.38.0",

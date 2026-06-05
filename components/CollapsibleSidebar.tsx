@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, Maximize2, Minimize2 } from 'lucide-react';
 
 interface CollapsibleSidebarProps {
@@ -43,7 +43,7 @@ export const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
-    
+
     const newWidth = Math.max(minWidth, Math.min(maxWidth, e.clientX));
     setWidth(newWidth);
   };
@@ -70,9 +70,7 @@ export const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
     >
       {/* Sidebar content */}
-      <div className="h-full overflow-hidden">
-        {children}
-      </div>
+      <div className="h-full overflow-hidden">{children}</div>
 
       {/* Resize handle */}
       <div
@@ -91,6 +89,8 @@ export const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
         <button
           onClick={handleToggle}
           className="absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 p-2 bg-studio-panel border border-studio-border rounded-l hover:bg-studio-accent hover:text-white transition-colors"
+          title="Expand sidebar"
+          aria-label="Expand sidebar"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -102,6 +102,7 @@ export const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
           onClick={handleToggle}
           className="absolute top-2 right-2 p-1.5 bg-studio-panel border border-studio-border rounded hover:bg-studio-accent hover:text-white transition-colors z-40"
           title="Collapse sidebar"
+          aria-label="Collapse sidebar"
         >
           <ChevronLeft className="w-3 h-3" />
         </button>
@@ -127,11 +128,12 @@ export const FullScreenToggle: React.FC<{ children: React.ReactNode }> = ({ chil
   return (
     <div className="relative">
       {children}
-      
+
       <button
         onClick={toggleFullscreen}
         className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-lg transition-colors z-50"
         title={isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
+        aria-label={isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
       >
         {isFullscreen ? (
           <Minimize2 className="w-4 h-4 text-white" />

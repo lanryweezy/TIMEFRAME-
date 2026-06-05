@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Skeleton } from '../ui/Skeleton';
 
-export const PricingPage = () => {
+export const PricingPage = ({ onStart }: { onStart?: () => void }) => {
   const [isAnnual, setIsAnnual] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
+  const loading = false;
 
   const tiers = [
     { name: 'Creator', price: 29 },
@@ -69,7 +64,10 @@ export const PricingPage = () => {
                       <li>✔ Community Support</li>
                     </ul>
                   </div>
-                  <button className="w-full bg-electric-blue text-white py-4 rounded-full font-semibold hover:bg-studio-accent-hover transition mt-auto">
+                  <button
+                    onClick={onStart}
+                    className="w-full bg-electric-blue text-white py-4 rounded-full font-semibold hover:bg-studio-accent-hover hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all mt-auto cursor-pointer"
+                  >
                     Start Creating
                   </button>
                 </motion.div>

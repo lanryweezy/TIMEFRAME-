@@ -44,7 +44,9 @@ export const HotspotProperties: React.FC<HotspotPropertiesProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Target className="w-4 h-4 text-studio-accent" />
-          <h3 className="text-[10px] font-black uppercase text-zinc-400 tracking-widest">Interactive Hotspots</h3>
+          <h3 className="text-[10px] font-black uppercase text-zinc-400 tracking-widest">
+            Interactive Hotspots
+          </h3>
         </div>
         <button
           onClick={addHotspot}
@@ -56,7 +58,10 @@ export const HotspotProperties: React.FC<HotspotPropertiesProps> = ({
 
       <div className="space-y-4">
         {(selectedClip.hotspots || []).map((h) => (
-          <div key={h.id} className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl space-y-4 group">
+          <div
+            key={h.id}
+            className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl space-y-4 group"
+          >
             <div className="flex items-center justify-between">
               <input
                 type="text"
@@ -66,6 +71,8 @@ export const HotspotProperties: React.FC<HotspotPropertiesProps> = ({
               />
               <button
                 onClick={() => removeHotspot(h.id)}
+                aria-label="Delete hotspot"
+                title="Delete hotspot"
                 className="p-1 text-zinc-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
               >
                 <Trash2 className="w-3 h-3" />

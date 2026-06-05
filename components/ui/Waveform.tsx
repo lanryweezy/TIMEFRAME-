@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getWaveformData } from '../../lib/waveform';
 import { workerPool } from '../../services/workerPool';
+import { readSharedTime } from '../../lib/sharedState';
 
 interface WaveformProps {
   id?: string;
@@ -9,28 +9,26 @@ interface WaveformProps {
   data?: number[];
   transients?: number[]; // Added
   duration?: number; // Added
-  progress: number;
+  startTime?: number; // Added
   color: string;
 }
 
 const cache = new Map<string, number[]>();
 
-export const Waveform: React.FC<WaveformProps> = ({ id, url, data, transients, duration, progress, color }) => {
-  const [bars, setBars] = useState<number[]>(data || []);
+export const Waveform: React.FC<WaveformProps> = ({ id, url, data, transients, duration, startTime = 0, color }) => {
+  // Initialize from cache immediately to avoid flash or synchronous setState
+  const initialCacheKey = url || id;
+  const initialCacheVal = initialCacheKey ? cache.get(initialCacheKey) : undefined;
+  const [bars, setBars] = useState<number[]>(initialCacheVal || []);
+  const barsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (data) {
-      setBars(data);
-      return;
-    }
+    if (data) return;
     
     const key = url || id;
     if (!key) return;
 
-    if (cache.has(key)) {
-      setBars(cache.get(key)!);
-      return;
-    }
+    if (cache.has(key)) return;
 
     if (url) {
       getWaveformData(url).then(result => {
@@ -55,18 +53,42 @@ export const Waveform: React.FC<WaveformProps> = ({ id, url, data, transients, d
     return () => worker.removeEventListener('message', handleMessage);
   }, [id, url, data]);
 
+  const activeBars = data || bars;
+
+  useEffect(() => {
+    let frameId: number;
+    const update = () => {
+      if (barsContainerRef.current && duration) {
+        const currentTime = readSharedTime();
+        const progress = ((currentTime - startTime) / duration) * 100;
+
+        const children = barsContainerRef.current.children;
+        const total = children.length;
+
+        for (let i = 0; i < total; i++) {
+          const child = children[i] as HTMLElement;
+          const isActive = (i / total) * 100 <= progress;
+          child.style.backgroundColor = isActive ? color : 'rgba(255,255,255,0.1)';
+        }
+      }
+      frameId = requestAnimationFrame(update);
+    };
+
+    frameId = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(frameId);
+  }, [duration, startTime, color]);
+
   return (
     <div className="relative h-full w-full flex items-center group">
-      <div className="flex items-center gap-[1px] h-full w-full opacity-60">
-        {bars.map((height, i) => {
-          const isActive = (i / bars.length) * 100 <= progress;
+      <div ref={barsContainerRef} className="flex items-center gap-[1px] h-full w-full opacity-60">
+        {activeBars.map((height, i) => {
           return (
             <div
               key={i}
-              className="flex-1 rounded-sm transition-all duration-300"
+              className="flex-1 rounded-sm"
               style={{
                 height: `${Math.max(4, height)}%`,
-                backgroundColor: isActive ? color : 'rgba(255,255,255,0.1)',
+                backgroundColor: 'rgba(255,255,255,0.1)',
               }}
             />
           );

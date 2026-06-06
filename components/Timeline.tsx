@@ -1,3 +1,63 @@
+
+
+// Component to handle high-frequency timecode updates without triggering massive re-renders
+const LiveTimelineTimecode: React.FC = React.memo(() => {
+  const timeRef = useRef<HTMLSpanElement>(null);
+  const frameRef = useRef<HTMLSpanElement>(null);
+  const totalFramesRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    let animationFrameId: number;
+    let lastTime = -1;
+
+    const updateDisplay = () => {
+      const time = typeof readSharedTime === 'function' ? readSharedTime() : 0;
+
+      // Only update DOM if time actually changed to avoid unnecessary layout calculations
+      if (time !== lastTime) {
+        lastTime = time;
+
+        if (timeRef.current) {
+          timeRef.current.textContent = new Date(time * 1000).toISOString().substr(14, 5);
+        }
+
+        if (frameRef.current) {
+          frameRef.current.textContent = Math.floor((time % 1) * 30).toFixed(0).padStart(2, '0');
+        }
+
+        if (totalFramesRef.current) {
+          totalFramesRef.current.textContent = Math.floor(time * 30).toString().padStart(4, '0');
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(updateDisplay);
+    };
+
+    animationFrameId = requestAnimationFrame(updateDisplay);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <div className="text-[15px] font-mono text-zinc-400 bg-white/2 border border-white/5 rounded-xl px-6 py-2 tracking-[0.1em] flex items-center gap-4 shadow-inner">
+      <div className="flex items-center">
+        <span className="text-zinc-600">0:</span>
+        <span ref={timeRef}>00:00</span>
+        <span className="text-zinc-600">.</span>
+        <span className="text-studio-accent font-black" ref={frameRef}>
+          00
+        </span>
+      </div>
+      <div className="w-[1px] h-5 bg-white/10" />
+      <span className="text-zinc-500 text-[12px] font-black tracking-widest">
+        F:
+        <span ref={totalFramesRef}>0000</span>
+      </span>
+    </div>
+  );
+});
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { VideoState, Keyframe, VideoClip, AudioBlock } from '../types';
 import {
@@ -80,6 +140,8 @@ import { TimelineTrackComponent } from './timeline/TimelineTrack';
 import { TimelineClip } from './TimelineClip';
 import { useTimelineDrag } from '../hooks/useTimelineDrag';
 import { ContextMenu } from './ContextMenu';
+import { TimecodeDisplay } from './TimecodeDisplay';
+import { readSharedTime } from '../lib/sharedState';
 
 const Timeline: React.FC<TimelineProps> = ({
   state,
@@ -804,25 +866,11 @@ const Timeline: React.FC<TimelineProps> = ({
                 <ZoomIn className="w-5 h-5" />
               </button>
             </div>
-            <div className="text-[15px] font-mono text-zinc-400 bg-white/2 border border-white/5 rounded-xl px-6 py-2 tracking-[0.1em] flex items-center gap-4 shadow-inner">
-              <div className="flex items-center">
-                <span className="text-zinc-600">0:</span>
-                {new Date(state.currentTime * 1000).toISOString().substr(14, 5)}
-                <span className="text-zinc-600">.</span>
-                <span className="text-studio-accent font-black">
-                  {Math.floor((state.currentTime % 1) * 30)
-                    .toFixed(0)
-                    .padStart(2, '0')}
-                </span>
-              </div>
-              <div className="w-[1px] h-5 bg-white/10" />
-              <span className="text-zinc-500 text-[12px] font-black tracking-widest">
-                F:
-                {Math.floor(state.currentTime * 30)
-                  .toString()
-                  .padStart(4, '0')}
-              </span>
-            </div>
+            <TimecodeDisplay
+              currentTime={state.currentTime}
+              duration={state.duration}
+              className="text-[15px] font-mono text-zinc-400 bg-white/2 border border-white/5 rounded-xl px-6 py-2 tracking-[0.1em] flex items-center gap-4 shadow-inner"
+            />
           </div>
         </div>
       </div>

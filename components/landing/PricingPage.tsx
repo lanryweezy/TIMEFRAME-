@@ -20,16 +20,22 @@ export const PricingPage = ({ onStart }: { onStart?: () => void }) => {
         </h2>
 
         <div className="flex justify-center mb-16">
-          <div className="glass p-1 rounded-full flex items-center gap-2">
+          <div
+            className="glass p-1 rounded-full flex items-center gap-2"
+            role="group"
+            aria-label="Billing cycle"
+          >
             <button
               onClick={() => setIsAnnual(false)}
-              className={`px-6 py-2 rounded-full font-semibold transition ${!isAnnual ? 'bg-electric-blue text-white' : 'text-studio-text'}`}
+              aria-pressed={!isAnnual}
+              className={`px-6 py-2 rounded-full font-semibold transition focus-visible:ring-2 focus-visible:ring-electric-blue outline-none ${!isAnnual ? 'bg-electric-blue text-white' : 'text-studio-text'}`}
             >
               Monthly
             </button>
             <button
               onClick={() => setIsAnnual(true)}
-              className={`px-6 py-2 rounded-full font-semibold transition ${isAnnual ? 'bg-electric-blue text-white' : 'text-studio-text'}`}
+              aria-pressed={isAnnual}
+              className={`px-6 py-2 rounded-full font-semibold transition focus-visible:ring-2 focus-visible:ring-electric-blue outline-none ${isAnnual ? 'bg-electric-blue text-white' : 'text-studio-text'}`}
             >
               Annual{' '}
               <span className="text-xs bg-neon-purple/20 text-neon-purple px-2 py-0.5 rounded-full">

@@ -118,6 +118,7 @@ export const TimelineZoomControls: React.FC<TimelineZoomControlsProps> = ({
           onClick={() => onZoomChange(Math.max(minZoom, zoomLevel / 1.5))}
           className="p-1.5 hover:bg-white/10 rounded transition-colors"
           title="Zoom Out"
+          aria-label="Zoom Out"
         >
           <ZoomOut className="w-3 h-3" />
         </button>
@@ -130,6 +131,7 @@ export const TimelineZoomControls: React.FC<TimelineZoomControlsProps> = ({
           onClick={() => onZoomChange(Math.min(maxZoom, zoomLevel * 1.5))}
           className="p-1.5 hover:bg-white/10 rounded transition-colors"
           title="Zoom In"
+          aria-label="Zoom In"
         >
           <ZoomIn className="w-3 h-3" />
         </button>

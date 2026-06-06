@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { readSharedTime } from '../lib/sharedState';
 
 interface TimecodeDisplayProps {
   currentTime: number;
@@ -16,7 +17,7 @@ interface TimecodeDisplayProps {
   className?: string;
 }
 
-export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
+export const TimecodeDisplay = React.memo<TimecodeDisplayProps>(({
   currentTime,
   duration,
   frameRate = 30,
@@ -25,7 +26,7 @@ export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
   onSeek,
   className = '',
 }) => {
-  const formatTimecode = (time: number): string => {
+  const formatTimecode = React.useCallback((time: number): string => {
     const totalSeconds = Math.floor(time);
     const frames = Math.floor((time % 1) * frameRate);
     
@@ -45,7 +46,7 @@ export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
       default:
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
-  };
+  }, [format, frameRate]);
 
   const handleClick = (e: React.MouseEvent) => {
     if (!onSeek) return;
@@ -56,6 +57,23 @@ export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
     onSeek(Math.max(0, Math.min(duration, time)));
   };
 
+const ref = React.useRef<HTMLSpanElement>(null);
+
+  React.useEffect(() => {
+    let frameId: number;
+    const update = () => {
+      if (ref.current) {
+        const time = typeof readSharedTime === 'function' ? readSharedTime() : currentTime;
+        const timeStr = formatTimecode(time);
+        const frameStr = showFrameCount ? ` <span class="text-studio-accent ml-1">(${Math.floor((time % 1) * frameRate).toString().padStart(2, '0')}f)</span>` : '';
+        ref.current.innerHTML = timeStr + frameStr;
+      }
+      frameId = requestAnimationFrame(update);
+    };
+    frameId = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(frameId);
+  }, [currentTime, frameRate, showFrameCount, format, formatTimecode]);
+
   return (
     <motion.div
       className={`font-mono text-xs font-bold text-studio-text-high ${className}`}
@@ -64,15 +82,10 @@ export const TimecodeDisplay: React.FC<TimecodeDisplayProps> = ({
       whileTap={{ scale: 0.95 }}
       title="Click to seek"
     >
-      {formatTimecode(currentTime)}
-      {showFrameCount && (
-        <span className="text-studio-accent ml-1">
-          ({Math.floor((currentTime % 1) * frameRate).toString().padStart(2, '0')}f)
-        </span>
-      )}
+      <span ref={ref} dangerouslySetInnerHTML={{ __html: formatTimecode(typeof readSharedTime === 'function' ? readSharedTime() : currentTime) + (showFrameCount ? ` <span class="text-studio-accent ml-1">(${Math.floor(((typeof readSharedTime === 'function' ? readSharedTime() : currentTime) % 1) * frameRate).toString().padStart(2, '0')}f)</span>` : '') }} />
     </motion.div>
   );
-};
+});
 
 // Timeline timecode marker
 export const TimelineTimecode: React.FC<{

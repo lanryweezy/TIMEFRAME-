@@ -57,6 +57,7 @@ export const WorkspaceSwitcher: React.FC = () => {
             disabled={state.history.past.length === 0}
             className="p-2 text-zinc-500 hover:text-white transition-all hover:bg-white/5 rounded-lg disabled:opacity-20"
             title="Undo"
+            aria-label="Undo"
           >
             <Undo2 className="w-3.5 h-3.5" />
           </button>
@@ -65,6 +66,7 @@ export const WorkspaceSwitcher: React.FC = () => {
             disabled={state.history.future.length === 0}
             className="p-2 text-zinc-500 hover:text-white transition-all hover:bg-white/5 rounded-lg disabled:opacity-20"
             title="Redo"
+            aria-label="Redo"
           >
             <Redo2 className="w-3.5 h-3.5" />
           </button>
@@ -107,6 +109,7 @@ export const WorkspaceSwitcher: React.FC = () => {
                 onClick={() => store.toggleTouchMode()}
                 className={`p-1.5 rounded transition-all ${touchMode ? 'text-orange-400 bg-orange-400/10' : 'text-zinc-600 hover:text-white'}`}
                 title="Touch Mode"
+                aria-label="Toggle Touch Mode"
             >
                 <Smartphone className="w-3.5 h-3.5" />
             </button>
@@ -114,6 +117,7 @@ export const WorkspaceSwitcher: React.FC = () => {
                 onClick={() => store.toggleGhostMode()}
                 className={`p-1.5 rounded transition-all ${ghostMode ? 'text-studio-accent bg-studio-accent/10' : 'text-zinc-600 hover:text-white'}`}
                 title="Ghost Frames"
+                aria-label="Toggle Ghost Frames"
             >
                 <Ghost className="w-3.5 h-3.5" />
             </button>
@@ -121,6 +125,7 @@ export const WorkspaceSwitcher: React.FC = () => {
                 onClick={() => store.toggleCustomLayout()}
                 className={`p-1.5 rounded transition-all ${customLayout ? 'text-purple-400 bg-purple-400/10' : 'text-zinc-600 hover:text-white'}`}
                 title="Layout Config"
+                aria-label="Toggle Layout Config"
             >
                 <Layers className="w-3.5 h-3.5" />
             </button>

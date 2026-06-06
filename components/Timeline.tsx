@@ -677,7 +677,7 @@ const Timeline: React.FC<TimelineProps> = ({
           <button
             onClick={onToggleMagnetic}
             className={`h-9 px-5 text-[13px] font-black uppercase tracking-widest transition-all rounded-xl border ${state.magneticTimeline ? 'text-studio-accent bg-studio-accent/10 border-studio-accent/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-white/5'}`}
-            aria-label="Toggle Magnetic Timeline"
+            aria-label="Toggle Magnetic Timeline" title="Toggle Magnetic Timeline"
           >
             Magnetic
           </button>
@@ -723,7 +723,7 @@ const Timeline: React.FC<TimelineProps> = ({
           <button
             onClick={onToggleRipple}
             className={`h-9 px-5 text-[13px] font-black uppercase tracking-widest transition-all rounded-xl border ${state.rippleEdit ? 'text-orange-400 bg-orange-400/10 border-orange-400/20' : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-white/5'}`}
-            aria-label="Toggle Ripple Edit"
+            aria-label="Toggle Ripple Edit" title="Toggle Ripple Edit"
           >
             Ripple
           </button>
@@ -839,7 +839,7 @@ const Timeline: React.FC<TimelineProps> = ({
               <button
                 onClick={() => onZoom(Math.max(10, state.zoomLevel - 10))}
                 className="p-2.5 text-zinc-600 hover:text-white transition-all hover:scale-110"
-                aria-label="Zoom Out"
+                aria-label="Zoom Out" title="Zoom Out"
               >
                 <ZoomOut className="w-5 h-5" />
               </button>
@@ -861,7 +861,7 @@ const Timeline: React.FC<TimelineProps> = ({
               <button
                 onClick={() => onZoom(Math.min(200, state.zoomLevel + 10))}
                 className="p-2.5 text-zinc-600 hover:text-white transition-all hover:scale-110"
-                aria-label="Zoom In"
+                aria-label="Zoom In" title="Zoom In"
               >
                 <ZoomIn className="w-5 h-5" />
               </button>
@@ -1137,7 +1137,7 @@ const Timeline: React.FC<TimelineProps> = ({
                   <div className="w-[1px] h-4 bg-white/10 mx-1" />
                   <button 
                     className="p-2.5 hover:bg-white/10 rounded-lg transition-all group active:scale-90"
-                    aria-label="More options"
+                    aria-label="More options" title="More options"
                   >
                     <MoreVertical className="w-4.5 h-4.5 text-zinc-500 group-hover:text-white" />
                   </button>

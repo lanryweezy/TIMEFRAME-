@@ -23,3 +23,13 @@
 ## 2024-06-10 - Bypassing React for Continuous Text Updates via SharedArrayBuffer
 **Learning:** React state updates (`setState`) triggered on every frame by highly frequent continuous events (like a running playhead advancing) cause severe top-down rendering trees and layout thrashing, even with virtualization.
 **Action:** For continuous components like `TimecodeDisplay`, attach a `useRef` directly to a DOM element, read the continuous value from a `SharedArrayBuffer` (via `readSharedTime`), and manually overwrite `ref.current.innerHTML` inside a `requestAnimationFrame` loop. This achieves 100x performance scaling by fully sidestepping the Virtual DOM diffing process while maintaining smooth 60/120fps display updates.
+## 2026-06-07 - O(N) Re-renders Caused by Inline Data Grouping on Scroll
+
+**Learning:** Grouping operations (like `items.forEach` to bucket items into tracks) that exist directly in the render body of a component like `TimelineTrackComponent` will run on every single render. Since the component re-renders frequently during scroll events due to viewport state changes, this results in an O(N) performance penalty per track, destroying scrolling performance.
+
+**Action:** Always wrap data grouping, bucketing, or sorting operations in a `React.useMemo` block that depends only on the raw data (e.g., `[items]`) so they are not recalculated on high-frequency UI state changes like scrolling.
+## 2026-06-07 - Broken Windowing: Binary Search Requires Sorted Arrays and Strict Bounds
+
+**Learning:** In timeline components, a virtualized windowing function (like `getVisibleItems`) that uses binary search to find a `startIndex` will completely fail to find elements if the array isn't explicitly sorted by time first. Furthermore, finding a start index isn't enough; the subsequent linear scan must strictly verify overlap (e.g., `item.startTime + item.duration >= viewport.start`) before pushing, otherwise it will blindly push items that end *before* the viewport even starts.
+
+**Action:** When implementing custom binary-search windowing, explicitly `sort()` the input array inside the memoized grouping block, and enforce a strict boundary check (`start + duration >= viewport.start`) inside the linear scan.

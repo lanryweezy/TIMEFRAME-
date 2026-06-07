@@ -79,7 +79,10 @@ const getVisibleItems = (items: any[], viewport: { start: number; end: number })
   for (let i = startIndex; i < items.length; i++) {
     const item = items[i];
     if (item.startTime > viewport.end) break;
-    visible.push(item);
+    // Strict overlap check
+    if (item.startTime + item.duration >= viewport.start) {
+      visible.push(item);
+    }
   }
   
   return visible;
@@ -104,20 +107,28 @@ export const TimelineTrackComponent = ({
   activeMode,
   onMoveKeyframe,
 }: TimelineTrackProps) => {
-  const items = (state[config.trackName] as any[]) || [];
+  // Memoize grouping and sorting to avoid O(N) recalculations on scroll/frequent updates
+  const { tracks, trackIds } = React.useMemo(() => {
+    const items = (state[config.trackName] as any[]) || [];
+    const tracksObj: Record<number, any[]> = {};
+    items.forEach((item: any) => {
+      const tid = item.trackId || 1;
+      if (!tracksObj[tid]) tracksObj[tid] = [];
+      tracksObj[tid].push(item);
+    });
 
-  // Group items by trackId
-  const tracks: Record<number, any[]> = {};
-  items.forEach((item: any) => {
-    const tid = item.trackId || 1;
-    if (!tracks[tid]) tracks[tid] = [];
-    tracks[tid].push(item);
-  });
+    // Sort items by startTime in each track for binary search
+    Object.values(tracksObj).forEach(trackItems => {
+      trackItems.sort((a, b) => a.startTime - b.startTime);
+    });
 
-  const trackIds = Object.keys(tracks)
-    .map(Number)
-    .sort((a, b) => a - b);
-  if (trackIds.length === 0) trackIds.push(1); // Default track
+    const ids = Object.keys(tracksObj)
+      .map(Number)
+      .sort((a, b) => a - b);
+    if (ids.length === 0) ids.push(1); // Default track
+
+    return { tracks: tracksObj, trackIds: ids };
+  }, [state, config.trackName]);
 
   return (
     <div className="space-y-1 mb-2">

@@ -125,6 +125,8 @@ export const ColorLab: React.FC<{ onClose: () => void }> = ({ onClose }) => {
            <button 
             onClick={onClose}
             className="p-2 text-zinc-500 hover:text-white transition-colors"
+            aria-label="Close"
+            title="Close"
           >
             <X className="w-6 h-6" />
           </button>

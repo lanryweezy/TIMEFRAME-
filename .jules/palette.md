@@ -7,3 +7,6 @@
 ## 2024-06-06 - Accessible Custom Toggle Groups
 **Learning:** When building custom two-state toggles (like Monthly/Annual billing) using `button` elements instead of standard radio inputs, screen readers lack context about the relationship between the buttons and their active state.
 **Action:** Always wrap custom button-based toggles in a `role="group"` container with an `aria-label`, and use `aria-pressed={true/false}` on the individual buttons to explicitly communicate their selected state. Ensure clear visual focus indicators (e.g., `focus-visible:ring-2`) since custom UI often removes default browser outlines.
+## 2024-06-07 - Consistent Close Button Accessibility
+**Learning:** Modals and overlay panels often use a generic `X` icon (e.g., from `lucide-react`) for dismiss/close actions. When these are implemented as icon-only `<button>`s, they fail both accessibility requirements (no context for screen readers) and usability best practices (no tooltip for sighted users).
+**Action:** When adding or auditing close/dismiss icon buttons, explicitly add both `aria-label="Close"` and `title="Close"` (or more context-specific labels like "Close tutorial") to ensure universal comprehension and compliance with the established UX coding standards.

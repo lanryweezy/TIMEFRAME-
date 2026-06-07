@@ -145,6 +145,8 @@ const ExportOverlay: React.FC<ExportOverlayProps> = ({ state, onClose, onDownloa
         <button
           onClick={onClose}
           className="absolute -top-12 -right-4 md:-right-12 p-3 bg-white/5 hover:bg-white/10 rounded-full text-white/50 hover:text-white transition-all z-50"
+          aria-label="Close"
+          title="Close"
         >
           <X className="w-6 h-6" />
         </button>

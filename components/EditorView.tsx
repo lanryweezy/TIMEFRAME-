@@ -343,12 +343,16 @@ export const EditorView: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <CommandPalette 
-        state={state}
-        handleSendMessage={handleSendMessage}
-        onClose={() => {}}
-        onModeChange={() => {}}
-      />
+      <AnimatePresence>
+        {state.showCommandPalette && (
+          <CommandPalette
+            state={state}
+            handleSendMessage={handleSendMessage}
+            onClose={() => setState((prev: any) => ({ ...prev, showCommandPalette: false }))}
+            onModeChange={() => {}}
+          />
+        )}
+      </AnimatePresence>
       <SystemTray state={state} />
       
       <AnimatePresence>

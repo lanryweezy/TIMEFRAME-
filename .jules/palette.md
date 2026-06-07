@@ -7,3 +7,6 @@
 ## 2024-06-06 - Accessible Custom Toggle Groups
 **Learning:** When building custom two-state toggles (like Monthly/Annual billing) using `button` elements instead of standard radio inputs, screen readers lack context about the relationship between the buttons and their active state.
 **Action:** Always wrap custom button-based toggles in a `role="group"` container with an `aria-label`, and use `aria-pressed={true/false}` on the individual buttons to explicitly communicate their selected state. Ensure clear visual focus indicators (e.g., `focus-visible:ring-2`) since custom UI often removes default browser outlines.
+## 2026-06-07 - Conditional Command Palette Blocking UI
+**Learning:** Initial application state defaults `showCommandPalette` to true via UI shortcuts, blocking the main editor layout as it unconditionally rendered `CommandPalette` over everything without relying on `state.showCommandPalette`. Even an invisible/uncontrolled modal component acts as a UX blocker if it lacks state-based conditional rendering in the parent container.
+**Action:** When implementing global overlay menus (like command palettes or search modals), ensure their display is tightly coupled to application state (e.g. `{state.showCommandPalette && <CommandPalette />}`) and provide explicit dismiss handlers so users aren't trapped upon initialization.

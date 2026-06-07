@@ -55,7 +55,7 @@ export const Settings = ({ onClose }: { onClose: () => void }) => {
             <h3 className="text-lg font-bold text-white">
               {CATEGORIES.find((c) => c.id === activeCategory)?.name}
             </h3>
-            <button onClick={onClose} className="text-zinc-400 hover:text-white transition-colors">
+            <button onClick={onClose} className="text-zinc-400 hover:text-white transition-colors" aria-label="Close" title="Close">
               <X className="w-5 h-5" />
             </button>
           </div>

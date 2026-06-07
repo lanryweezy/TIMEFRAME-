@@ -48,7 +48,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
           <Sliders className="w-3 h-3 text-studio-accent" />
           Node Inspector
         </h3>
-        <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+        <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors" aria-label="Close" title="Close">
           <Scissors className="w-3.5 h-3.5" />
         </button>
       </div>

@@ -32,7 +32,7 @@ export const ProjectSetup = ({
           <h2 className="text-2xl font-bold">
             {step === 1 ? 'Choose Format' : 'Select Editing Mode'}
           </h2>
-          <button onClick={onClose}>
+          <button onClick={onClose} aria-label="Close" title="Close">
             <X className="text-zinc-500 hover:text-white" />
           </button>
         </div>

@@ -36,3 +36,7 @@
 ## 2024-06-11 - Custom Custom React DOM Manipulation Bypassing Component Hierarchy
 **Learning:** During playback, components like `Waveform.tsx` were receiving the rapidly updating global state variable `currentTime` through React props and standard `useState` hooks. This triggered thousands of unneeded layout calculations due to `React.memo` cascades. By bypassing React rendering completely with `useRef`, reading shared memory directly `typeof readSharedTime === 'function' ? readSharedTime() : 0`, and manipulating the style inside `requestAnimationFrame`, massive rendering improvements are seen.
 **Action:** Stop passing high-frequency continuous parameters (time, drag coordinates) to interactive DOM components through React state.
+
+## 2026-06-08 - [Architecture Plan Overhaul]
+**Learning:** Initial caching, computation engines, and internal state trees needed to reflect an OS-native mentality rather than a web-app mentality.
+**Action:** Overhauled `ARCHITECTURE_REVIEW.md` to specify Multi-Level Cache hierarchies, SharedArrayBuffer internal databases (ECS), and proxy-first editing paths as the highest-tier priorities.

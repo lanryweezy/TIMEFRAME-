@@ -1,0 +1,23 @@
+--- components/Timeline.tsx
++++ components/Timeline.tsx
+@@ -512,16 +512,6 @@
+     });
+   };
+
+-  useEffect(() => {
+-    const mm = (e: MouseEvent) => {
+-      if (timelineRef.current) {
+-        handleMouseMove(e, timelineRef as React.RefObject<HTMLDivElement>);
+-      }
+-    };
+-    window.addEventListener('mousemove', mm);
+-    window.addEventListener('mouseup', handleMouseUp);
+-
+-    return () => {
+-      window.removeEventListener('mousemove', mm);
+-      window.removeEventListener('mouseup', handleMouseUp);
+-    };
+-  }, [handleMouseMove, handleMouseUp]);
+-
+   const TrackHeader = ({ icon: Icon, label }: { icon: any; label: string }) => (
+     <div className="absolute left-0 top-0 bottom-0 w-8 flex flex-col items-center justify-center bg-studio-bg border-r border-studio-border z-20 group">

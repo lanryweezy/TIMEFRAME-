@@ -509,19 +509,11 @@ const Timeline: React.FC<TimelineProps> = ({
   };
 
   useEffect(() => {
-    const mm = (e: MouseEvent) => {
-      if (timelineRef.current) {
-        handleMouseMove(e, timelineRef as React.RefObject<HTMLDivElement>);
-      }
-    };
-    window.addEventListener('mousemove', mm);
     window.addEventListener('mouseup', handleMouseUp);
-
     return () => {
-      window.removeEventListener('mousemove', mm);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [handleMouseMove, handleMouseUp]);
+  }, [handleMouseUp]);
 
   const TrackHeader = ({ icon: Icon, label }: { icon: any; label: string }) => (
     <div className="absolute left-0 top-0 bottom-0 w-8 flex flex-col items-center justify-center bg-studio-bg border-r border-studio-border z-20 group">
@@ -890,6 +882,11 @@ const Timeline: React.FC<TimelineProps> = ({
           onClick={handleTimelineClick}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
+          onMouseMove={(e) => {
+            if (timelineRef.current) {
+                handleMouseMove(e.nativeEvent, timelineRef as React.RefObject<HTMLDivElement>);
+            }
+          }}
           onMouseDown={(e) => {
             if (e.button === 0 && !(e.target as HTMLElement).closest('.timeline-item-handle')) {
               setSelectionBox({ x1: e.clientX, y1: e.clientY, x2: e.clientX, y2: e.clientY });

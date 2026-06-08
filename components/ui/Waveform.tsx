@@ -9,9 +9,8 @@ interface WaveformProps {
   data?: number[];
   transients?: number[]; // Added
   duration?: number; // Added
-  startTime?: number; // Added
   color: string;
-  startTime?: number;
+  progress?: number;
 }
 
 const cache = new Map<string, number[]>();

@@ -140,6 +140,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           <button
             onClick={onClose}
             className="p-1 hover:bg-white/10 rounded transition-colors"
+            aria-label="Close"
+            title="Close"
           >
             <X className="w-4 h-4" />
           </button>

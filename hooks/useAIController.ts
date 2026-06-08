@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { createGeminiSession } from '../services/geminiService';
+import { workerPool } from '../services/workerPool';
 import {
   ChatMessage,
   ToolNames,
@@ -28,7 +28,8 @@ export const useAIController = () => {
     { id: 'init', role: 'model', content: INITIAL_CHAT_MESSAGE },
   ]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const chatSessionRef = useRef<Chat | null>(null);
+  const aiWorkerRef = useRef<Worker | null>(null);
+  const messageResolvers = useRef(new Map());
   const store = useVideoStore();
   const stateRef = useRef(store);
 
@@ -59,12 +60,33 @@ export const useAIController = () => {
   }, [store]);
 
   useEffect(() => {
-    chatSessionRef.current = createGeminiSession();
+    try {
+      const worker = workerPool.getWorker('ai');
+      aiWorkerRef.current = worker;
+
+      worker.onmessage = (e) => {
+          const { id, type, payload } = e.data;
+          const resolver = messageResolvers.current.get(id);
+          if (resolver) {
+              if (type === 'MESSAGE_RESPONSE') {
+                  resolver.resolve(payload);
+              } else if (type === 'ERROR') {
+                  resolver.reject(new Error(payload));
+              }
+              messageResolvers.current.delete(id);
+          }
+      };
+
+      worker.postMessage({ id: 'init', type: 'INIT_SESSION' });
+      console.log('Neural Core Online: Primary models loaded via Web Worker.');
+    } catch (err) {
+      console.error('Neural Core Offline', err);
+    }
   }, []);
 
   const handleSendMessage = useCallback(
     async (userMessage: string) => {
-      if (!chatSessionRef.current) return;
+      if (!aiWorkerRef.current) return;
       setIsProcessing(true);
 
       if (userMessage.startsWith('Resolve the debate:')) {
@@ -98,7 +120,11 @@ export const useAIController = () => {
       });
 
       try {
-        const response = await chatSessionRef.current.sendMessage({ message: userMessage });
+        const response = await new Promise<any>((resolve, reject) => {
+          const msgId = crypto.randomUUID();
+          messageResolvers.current.set(msgId, { resolve, reject });
+          aiWorkerRef.current!.postMessage({ id: msgId, type: 'SEND_MESSAGE', payload: { message: userMessage } });
+        });
         const functionCalls = response.functionCalls;
 
         if (functionCalls && functionCalls.length > 0) {

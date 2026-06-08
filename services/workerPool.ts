@@ -4,7 +4,7 @@
  * Solves the "Sequential Boot Latency" bottleneck.
  */
 
-type WorkerType = 'decoder' | 'pixi' | 'audio' | 'vfx' | 'export' | 'sam' | 'compute' | 'video' | 'waveform';
+type WorkerType = 'decoder' | 'pixi' | 'audio' | 'vfx' | 'export' | 'sam' | 'compute' | 'video' | 'waveform' | 'ai';
 
 interface WorkerConfig {
   url: string;
@@ -22,6 +22,7 @@ const WORKER_MANIFEST: Record<WorkerType, WorkerConfig> = {
   compute: { url: '../workers/compute.worker.ts', type: 'module', lazy: true },
   video: { url: '../workers/videoProcessor.worker.ts', type: 'module', lazy: true },
   waveform: { url: '../workers/waveformWorker.ts', type: 'module', lazy: true },
+  ai: { url: '../workers/ai.worker.ts', type: 'module', lazy: true },
 };
 
 class WorkerPool {

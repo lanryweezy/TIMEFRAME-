@@ -40,3 +40,11 @@
 ## 2026-06-08 - [Architecture Plan Overhaul]
 **Learning:** Initial caching, computation engines, and internal state trees needed to reflect an OS-native mentality rather than a web-app mentality.
 **Action:** Overhauled `ARCHITECTURE_REVIEW.md` to specify Multi-Level Cache hierarchies, SharedArrayBuffer internal databases (ECS), and proxy-first editing paths as the highest-tier priorities.
+
+## 2026-06-08 - [OPFS Implementation Attempt]
+**Learning:** Blindly removing `URL.createObjectURL` and replacing it with custom `opfs://` strings breaks components like `<video>` or `<a>` tags which do not support custom schemes natively without a Service Worker.
+**Action:** Do not implement OPFS-everywhere without first building the Service Worker or standardizing `URL.createObjectURL(fileHandle.getFile())` for UI rendering paths while keeping OPFS purely for storage. Reverted all broken placeholder edits.
+
+## 2026-06-08 - [Main Thread Isolation Implementation]
+**Learning:** Moving AI heavy orchestration (Gemini integration) to a Web Worker keeps the main UI thread (specifically React handling `useAIController.ts` interactions) responsive during inference and serialization delays.
+**Action:** Created `ai.worker.ts` and successfully piped AI commands asynchronously through `workerPool` rather than blocking `useAIController`.

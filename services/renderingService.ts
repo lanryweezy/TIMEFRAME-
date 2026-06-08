@@ -92,7 +92,7 @@ export const renderVideo = async (state: VideoState, onProgress: (progress: numb
           }, (p) => onProgress(80 + (p.percentage * 0.2)));
 
           const finalBlob = new Blob([outputData], { type: 'video/mp4' });
-          const url = URL.createObjectURL(finalBlob);
+          const url = '/opfs/latest_export.mp4';
           
           await opfsService.saveFile('latest_export.mp4', finalBlob.stream());
           

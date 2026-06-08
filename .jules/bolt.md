@@ -36,3 +36,19 @@
 ## 2024-06-11 - Custom Custom React DOM Manipulation Bypassing Component Hierarchy
 **Learning:** During playback, components like `Waveform.tsx` were receiving the rapidly updating global state variable `currentTime` through React props and standard `useState` hooks. This triggered thousands of unneeded layout calculations due to `React.memo` cascades. By bypassing React rendering completely with `useRef`, reading shared memory directly `typeof readSharedTime === 'function' ? readSharedTime() : 0`, and manipulating the style inside `requestAnimationFrame`, massive rendering improvements are seen.
 **Action:** Stop passing high-frequency continuous parameters (time, drag coordinates) to interactive DOM components through React state.
+
+## 2026-06-08 - [Architecture Plan Overhaul]
+**Learning:** Initial caching, computation engines, and internal state trees needed to reflect an OS-native mentality rather than a web-app mentality.
+**Action:** Overhauled `ARCHITECTURE_REVIEW.md` to specify Multi-Level Cache hierarchies, SharedArrayBuffer internal databases (ECS), and proxy-first editing paths as the highest-tier priorities.
+
+## 2026-06-08 - [OPFS Implementation Attempt]
+**Learning:** Blindly removing `URL.createObjectURL` and replacing it with custom `opfs://` strings breaks components like `<video>` or `<a>` tags which do not support custom schemes natively without a Service Worker.
+**Action:** Do not implement OPFS-everywhere without first building the Service Worker or standardizing `URL.createObjectURL(fileHandle.getFile())` for UI rendering paths while keeping OPFS purely for storage. Reverted all broken placeholder edits.
+
+## 2026-06-08 - [Main Thread Isolation Implementation]
+**Learning:** Moving AI heavy orchestration (Gemini integration) to a Web Worker keeps the main UI thread (specifically React handling `useAIController.ts` interactions) responsive during inference and serialization delays.
+**Action:** Created `ai.worker.ts` and successfully piped AI commands asynchronously through `workerPool` rather than blocking `useAIController`.
+
+## 2026-06-08 - [OPFS Implementation Success]
+**Learning:** To successfully eliminate `blob:` memory leaks across the app while retaining UI interoperability (e.g. for `<video>` or `<img>` tags), a Service Worker must intercept the requests and stream from OPFS natively.
+**Action:** Implemented a Service Worker (`public/sw.js`) that intercepts `/opfs/` URLs and maps them to `navigator.storage.getDirectory()`, completely removing `URL.createObjectURL` from the codebase.

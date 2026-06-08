@@ -58,12 +58,12 @@ interface TimelineTrackProps {
  */
 const getVisibleItems = (items: any[], viewport: { start: number; end: number }) => {
   if (items.length === 0) return [];
-  
+
   // 1. Binary Search for start index
   let low = 0;
   let high = items.length - 1;
   let startIndex = 0;
-  
+
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
     if (items[mid].startTime + items[mid].duration >= viewport.start) {
@@ -84,7 +84,7 @@ const getVisibleItems = (items: any[], viewport: { start: number; end: number })
       visible.push(item);
     }
   }
-  
+
   return visible;
 };
 
@@ -108,11 +108,10 @@ export const TimelineTrackComponent = ({
   onMoveKeyframe,
 }: TimelineTrackProps) => {
   // Memoize grouping and sorting to avoid O(N) recalculations on scroll/frequent updates
-  const items = state[config.trackName] as any[];
+  const items = (state[config.trackName] as any[]) || [];
   const { tracks, trackIds } = React.useMemo(() => {
-    const safeItems = items || [];
     const tracksObj: Record<number, any[]> = {};
-    safeItems.forEach((item: any) => {
+    items.forEach((item: any) => {
       const tid = item.trackId || 1;
       if (!tracksObj[tid]) tracksObj[tid] = [];
       tracksObj[tid].push(item);

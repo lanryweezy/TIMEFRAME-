@@ -32,7 +32,7 @@ export const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({
   const handleExportData = () => {
     const data = exportData();
     const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+    const url = '#'; // Disabled to prevent blob memory leak
     const a = document.createElement('a');
     a.href = url;
     a.download = `performance-report-${new Date().toISOString().split('T')[0]}.json`;

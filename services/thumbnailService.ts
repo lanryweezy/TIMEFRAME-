@@ -14,7 +14,7 @@ export class ThumbnailService {
    */
   static async generateThumbnail(url: string, time: number = 0): Promise<string> {
     const realUrl = url.startsWith('opfs://') 
-        ? URL.createObjectURL(await opfsService.getFile(url.replace('opfs://', '')) as Blob)
+        ? '/opfs/' + encodeURIComponent(url.replace('opfs://', ''))
         : url;
 
     return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ export class ThumbnailService {
   static async generateSequence(url: string, count: number = 5): Promise<string[]> {
       const thumbnails: string[] = [];
       const realUrl = url.startsWith('opfs://') 
-        ? URL.createObjectURL(await opfsService.getFile(url.replace('opfs://', '')) as Blob)
+        ? '/opfs/' + encodeURIComponent(url.replace('opfs://', ''))
         : url;
 
       return new Promise((resolve) => {

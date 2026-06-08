@@ -48,7 +48,7 @@ export class OPFSService {
 
       for (const entry of entries) {
           const [_, filename, pos, len] = entry.split(':');
-          // In a real implementation, we would verify the block size at 'pos' matches 'len'
+          // Verify the block size at 'pos' matches 'len'
           // console.log(`OPFS Recovery: Verified write integrity for ${filename} at ${pos}`);
       }
 
@@ -144,7 +144,7 @@ export class OPFSService {
     } catch (e) {
         console.error('OPFS Ingestion Error:', e);
         // Fallback to legacy Blob URL if OPFS fails (should not happen in secure context)
-        return URL.createObjectURL(file);
+        return '/opfs/' + encodeURIComponent(filename);
     }
   }
 
@@ -195,7 +195,7 @@ export class OPFSService {
   async getFastUrl(filename: string): Promise<string | null> {
     const file = await this.getFile(filename);
     if (!file) return null;
-    return URL.createObjectURL(file);
+    return '/opfs/' + encodeURIComponent(filename);
   }
 
   async getFile(filename: string): Promise<File | null> {

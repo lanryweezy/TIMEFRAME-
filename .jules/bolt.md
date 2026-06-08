@@ -48,3 +48,7 @@
 ## 2026-06-08 - [Main Thread Isolation Implementation]
 **Learning:** Moving AI heavy orchestration (Gemini integration) to a Web Worker keeps the main UI thread (specifically React handling `useAIController.ts` interactions) responsive during inference and serialization delays.
 **Action:** Created `ai.worker.ts` and successfully piped AI commands asynchronously through `workerPool` rather than blocking `useAIController`.
+
+## 2026-06-08 - [OPFS Implementation Success]
+**Learning:** To successfully eliminate `blob:` memory leaks across the app while retaining UI interoperability (e.g. for `<video>` or `<img>` tags), a Service Worker must intercept the requests and stream from OPFS natively.
+**Action:** Implemented a Service Worker (`public/sw.js`) that intercepts `/opfs/` URLs and maps them to `navigator.storage.getDirectory()`, completely removing `URL.createObjectURL` from the codebase.

@@ -2,7 +2,7 @@ import { GoogleGenAI } from '@google/genai';
 import { tools } from '../hooks/ai-handlers/index';
 const SYSTEM_INSTRUCTION = 'You are Zoe, an elite AI video editor...'; // Fallback instruction
 
-const ai = new GoogleGenAI({ apiKey: process.env.VITE_GEMINI_API_KEY || '' });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
 
 self.onmessage = async (e) => {
     const { id, type, payload } = e.data;

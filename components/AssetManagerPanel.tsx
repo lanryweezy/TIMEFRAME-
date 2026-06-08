@@ -144,7 +144,7 @@ const AssetManagerPanel: React.FC<AssetManagerPanelProps> = ({ state, handleSend
       try {
         // Assume store has handleIngestFile or similar, if not we need to implement it
         // For now, let's use a mock implementation if it's missing from store
-        const ingestFn = (store as any).handleIngestFile || (async (f: File) => ({ url: URL.createObjectURL(f), thumbnail: '' }));
+        const ingestFn = (store as any).handleIngestFile || (async (f: File) => ({ url: `/opfs/${f.name}`, thumbnail: '' }));
         const result = await ingestFn(file);
         if (!result) continue;
 

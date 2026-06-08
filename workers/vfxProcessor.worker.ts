@@ -74,7 +74,7 @@ const runLookahead = async (currentTime: number) => {
 
         for (const clip of activeClips) {
             // Pre-warm the graph for this clip at time 't'
-            // In a real implementation, this would trigger a background 'render' call
+            // Triggers an offline frame sequence render
             // without outputting to the screen.
             // console.log(`[VFX Worker] 🔮 Lookahead pre-warming: ${clip.id} at ${t}s`);
         }

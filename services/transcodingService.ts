@@ -35,7 +35,7 @@ export class TranscodingService {
             resolve(true); // Browser failed to decode
             URL.revokeObjectURL(video.src);
         };
-        video.src = URL.createObjectURL(file);
+        video.src = '/opfs/' + encodeURIComponent(file.name);
     });
   }
 

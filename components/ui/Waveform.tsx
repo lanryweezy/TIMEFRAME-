@@ -9,6 +9,7 @@ interface WaveformProps {
   data?: number[];
   transients?: number[]; // Added
   duration?: number; // Added
+  progress?: number;
   color: string;
   progress?: number;
 }

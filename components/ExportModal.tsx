@@ -88,6 +88,8 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, progress, onCl
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-white/5 rounded-full transition-colors"
+                aria-label="Close export modal"
+                title="Close"
               >
                 <X className="w-5 h-5 text-slate-400" />
               </button>
@@ -204,7 +206,11 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, progress, onCl
                             <span className="text-[7px] text-zinc-500 uppercase font-mono">Predicted CTR</span>
                             <span className="text-[10px] font-black text-emerald-400">{variant.ctr}%</span>
                           </div>
-                          <button className="p-1 hover:bg-white/5 rounded text-zinc-500 hover:text-white">
+                          <button
+                            className="p-1 hover:bg-white/5 rounded text-zinc-500 hover:text-white"
+                            aria-label={`Download ${variant.label} thumbnail`}
+                            title="Download thumbnail"
+                          >
                             <Download className="w-3 h-3" />
                           </button>
                         </div>

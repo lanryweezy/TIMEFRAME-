@@ -36,19 +36,33 @@ export const AssetUniverse = ({ state }: { state: VideoState }) => {
           <Bot className="w-5 h-5 text-studio-accent" /> Asset Universe (10K+ Assets)
         </h2>
         <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-panel-base rounded-lg p-1 border border-panel-border">
-                <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-1 hover:bg-zinc-800 rounded" aria-label="Zoom Out"><ZoomOut className="w-4 h-4" /></button>
-                <span className="text-xs text-zinc-500 w-8 text-center">{Math.round(zoom * 100)}%</span>
-                <button onClick={() => setZoom(z => Math.min(2.0, z + 0.1))} className="p-1 hover:bg-zinc-800 rounded" aria-label="Zoom In"><ZoomIn className="w-4 h-4" /></button>
-            </div>
-            <div className="relative w-80">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                <input
-                    type="text"
-                    placeholder="Search 10,000+ assets..."
-                    className="bg-panel-base border border-panel-border rounded-lg py-2 pl-10 pr-4 w-full focus:outline-none focus:border-studio-accent text-sm"
-                />
-            </div>
+          <div className="flex items-center gap-2 bg-panel-base rounded-lg p-1 border border-panel-border">
+            <button
+              onClick={() => setZoom((z) => Math.max(0.2, z - 0.1))}
+              className="p-1 hover:bg-zinc-800 rounded"
+              aria-label="Zoom Out"
+              title="Zoom Out"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <span className="text-xs text-zinc-500 w-8 text-center">{Math.round(zoom * 100)}%</span>
+            <button
+              onClick={() => setZoom((z) => Math.min(2.0, z + 0.1))}
+              className="p-1 hover:bg-zinc-800 rounded"
+              aria-label="Zoom In"
+              title="Zoom In"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="relative w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+            <input
+              type="text"
+              placeholder="Search 10,000+ assets..."
+              className="bg-panel-base border border-panel-border rounded-lg py-2 pl-10 pr-4 w-full focus:outline-none focus:border-studio-accent text-sm"
+            />
+          </div>
         </div>
       </header>
 
@@ -78,25 +92,25 @@ export const AssetUniverse = ({ state }: { state: VideoState }) => {
                         className="flex-1 bg-panel-elevated backdrop-blur-md border border-panel-border rounded-xl p-4 flex flex-col gap-2 h-full shadow-lg overflow-hidden cursor-pointer hover:border-zinc-500 transition-colors"
                       >
                         {showThumbnail && (
-                            <div className="flex-1 bg-white/5 rounded-lg flex items-center justify-center min-h-[60px]">
-                                {asset.type === 'video' ? (
-                                    <Video className="w-8 h-8 text-zinc-700" />
-                                ) : asset.type === 'audio' ? (
-                                    <FileText className="w-8 h-8 text-zinc-700" />
-                                ) : (
-                                    <Image className="w-8 h-8 text-zinc-700" />
-                                )}
-                            </div>
+                          <div className="flex-1 bg-white/5 rounded-lg flex items-center justify-center min-h-[60px]">
+                            {asset.type === 'video' ? (
+                              <Video className="w-8 h-8 text-zinc-700" />
+                            ) : asset.type === 'audio' ? (
+                              <FileText className="w-8 h-8 text-zinc-700" />
+                            ) : (
+                              <Image className="w-8 h-8 text-zinc-700" />
+                            )}
+                          </div>
                         )}
                         {showMetadata && (
-                            <>
-                                <span className="text-sm font-medium truncate" title={asset.title}>
-                                    {asset.title}
-                                </span>
-                                <div className="flex items-center gap-2 text-xs text-zinc-500">
-                                    <Tag className="w-3 h-3" /> {asset.tag}
-                                </div>
-                            </>
+                          <>
+                            <span className="text-sm font-medium truncate" title={asset.title}>
+                              {asset.title}
+                            </span>
+                            <div className="flex items-center gap-2 text-xs text-zinc-500">
+                              <Tag className="w-3 h-3" /> {asset.tag}
+                            </div>
+                          </>
                         )}
                       </motion.div>
                     );

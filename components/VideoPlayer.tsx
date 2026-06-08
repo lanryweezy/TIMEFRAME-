@@ -48,17 +48,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   // TRACK PLAYER DIMENSIONS FOR GIZMO ACCURACY
   useEffect(() => {
     if (!playerContainerRef.current) return;
-    
+
     const updateRect = () => {
-        if (playerContainerRef.current) {
-            setPlayerRect(playerContainerRef.current.getBoundingClientRect());
-        }
+      if (playerContainerRef.current) {
+        setPlayerRect(playerContainerRef.current.getBoundingClientRect());
+      }
     };
 
     const observer = new ResizeObserver(updateRect);
     observer.observe(playerContainerRef.current);
     updateRect();
-    
+
     return () => observer.disconnect();
   }, []);
 
@@ -91,9 +91,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const activeHotspots = useMemo(() => {
     const clips = state.videoClips || [];
     const hotspots: Hotspot[] = [];
-    clips.forEach(clip => {
+    clips.forEach((clip) => {
       if (clip.hotspots) {
-        clip.hotspots.forEach(h => {
+        clip.hotspots.forEach((h) => {
           const globalTime = clip.startTime + h.time;
           if (state.currentTime >= globalTime && state.currentTime <= globalTime + h.duration) {
             hotspots.push(h);
@@ -156,7 +156,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         className={`relative overflow-hidden bg-black transition-all duration-700 shadow-[0_0_50px_rgba(0,0,0,1)] border ${getAspectRatioClasses(state.aspectRatio)} ${state.isAnalyzing || state.isGenerating || state.isEnhancing || state.isStabilizing || state.isGeneratingAvatar ? 'border-blue-500/50 active-glow' : 'border-[#1a1a1a]'}`}
       >
         {/* Dopamine Glow Layer */}
-        <div 
+        <div
           className="absolute inset-0 z-[11] pointer-events-none transition-all duration-500 rounded-[inherit]"
           style={dopamineGlowStyle}
         />
@@ -170,7 +170,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         {state.multiCamMode && multiCamClips.length > 1 && (
           <div className="absolute inset-0 z-[45] bg-black/80 backdrop-blur-sm p-4 grid grid-cols-2 gap-2">
             <div className="absolute top-4 right-4 z-50">
-              <button 
+              <button
+                aria-label="Sync Cameras"
+                title="Sync Cameras"
                 onClick={(e) => {
                   e.stopPropagation();
                   // Trigger Sync Logic (#30)
@@ -217,15 +219,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         <ProcessingOverlay state={state} />
 
         <SocialSafeZones state={state} />
-        
+
         {/* Multi-Format Safe Zone Indicators (Item 74) */}
         {state.socialPlatform === 'none' && (
           <div className="absolute inset-0 z-[19] pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
             <div className="absolute inset-[15%] border border-dashed border-white/20 rounded-lg">
-              <span className="absolute top-1 left-1 text-[6px] font-black uppercase text-zinc-500">Global Safe Area</span>
+              <span className="absolute top-1 left-1 text-[6px] font-black uppercase text-zinc-500">
+                Global Safe Area
+              </span>
             </div>
             <div className="absolute inset-x-[10%] bottom-[20%] top-[10%] border border-dashed border-studio-accent/20 rounded-md">
-              <span className="absolute bottom-1 right-1 text-[6px] font-black uppercase text-studio-accent">TikTok / Reels Focus</span>
+              <span className="absolute bottom-1 right-1 text-[6px] font-black uppercase text-studio-accent">
+                TikTok / Reels Focus
+              </span>
             </div>
           </div>
         )}
@@ -233,7 +239,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         {/* Viral Heatmap Overlay */}
         <AnimatePresence>
           {state.showViralHeatmap && state.analytics && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -241,13 +247,24 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             >
               <div className="absolute bottom-4 inset-x-4 h-32 flex items-end gap-[1px]">
                 {state.analytics.heatmapData.map((point, i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="flex-1 rounded-t-[1px] transition-all duration-500"
-                    style={{ 
-                      height: `${point.y}%`, 
-                      backgroundColor: point.y > 80 ? 'rgba(59, 130, 246, 0.4)' : point.y > 50 ? 'rgba(168, 85, 247, 0.3)' : 'rgba(239, 68, 68, 0.2)',
-                      opacity: Math.abs((state.currentTime / state.duration) * 100 - (i / (state.analytics?.heatmapData?.length || 1)) * 100) < 5 ? 0.8 : 0.2
+                    style={{
+                      height: `${point.y}%`,
+                      backgroundColor:
+                        point.y > 80
+                          ? 'rgba(59, 130, 246, 0.4)'
+                          : point.y > 50
+                            ? 'rgba(168, 85, 247, 0.3)'
+                            : 'rgba(239, 68, 68, 0.2)',
+                      opacity:
+                        Math.abs(
+                          (state.currentTime / state.duration) * 100 -
+                            (i / (state.analytics?.heatmapData?.length || 1)) * 100,
+                        ) < 5
+                          ? 0.8
+                          : 0.2,
                     }}
                   />
                 ))}
@@ -255,11 +272,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
               <div className="absolute top-1/2 left-4 -translate-y-1/2 space-y-2">
                 <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
                   <Activity className="w-3.5 h-3.5 text-studio-accent animate-pulse" />
-                  <span className="text-[9px] font-black uppercase text-white tracking-widest">Real-time Engagement Map</span>
+                  <span className="text-[9px] font-black uppercase text-white tracking-widest">
+                    Real-time Engagement Map
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
                   <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-                  <span className="text-[9px] font-black uppercase text-white tracking-widest">Predicted Viral Hotspots</span>
+                  <span className="text-[9px] font-black uppercase text-white tracking-widest">
+                    Predicted Viral Hotspots
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -268,7 +289,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
         {/* Hotspots Layer */}
         <div className="absolute inset-0 z-[25] pointer-events-none">
-          {activeHotspots.map(h => (
+          {activeHotspots.map((h) => (
             <motion.div
               key={h.id}
               initial={{ scale: 0, opacity: 0 }}
@@ -277,16 +298,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
               className="absolute pointer-events-auto group"
               style={{ left: `${h.x}%`, top: `${h.y}%` }}
             >
-              <a 
-                href={h.url} 
-                target="_blank" 
+              <a
+                href={h.url}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="relative flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 p-2 rounded-full hover:bg-studio-accent hover:text-black transition-all hover:scale-110 shadow-2xl"
               >
                 <div className="w-8 h-8 rounded-full bg-studio-accent/20 flex items-center justify-center border border-studio-accent/30 group-hover:bg-black/20">
                   <ExternalLink className="w-4 h-4" />
                 </div>
-                <span className="text-[10px] font-black uppercase pr-3 hidden group-hover:block transition-all">{h.label}</span>
+                <span className="text-[10px] font-black uppercase pr-3 hidden group-hover:block transition-all">
+                  {h.label}
+                </span>
                 <div className="absolute inset-0 rounded-full animate-ping bg-studio-accent/20 -z-10 group-hover:hidden" />
               </a>
             </motion.div>
@@ -391,7 +414,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
             const x = e.clientX - rect.left;
-            
+
             // If click is in the center area (roughly 20% of width/height), toggle play
             // Otherwise, seek to the clicked horizontal position
             const centerX = rect.width / 2;

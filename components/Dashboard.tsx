@@ -174,6 +174,7 @@ export const Dashboard = ({
               <button
                 onClick={() => setViewMode('grid')}
                 aria-label="Grid View"
+                title="Grid View"
                 className={`p-1.5 ${viewMode === 'grid' ? 'bg-zinc-800' : 'bg-zinc-950'} focus-visible:ring-2 focus-visible:ring-studio-accent`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -181,6 +182,7 @@ export const Dashboard = ({
               <button
                 onClick={() => setViewMode('list')}
                 aria-label="List View"
+                title="List View"
                 className={`p-1.5 ${viewMode === 'list' ? 'bg-zinc-800' : 'bg-zinc-950'} focus-visible:ring-2 focus-visible:ring-studio-accent`}
               >
                 <List className="w-4 h-4" />
@@ -217,6 +219,7 @@ export const Dashboard = ({
                   <button
                     onClick={(e) => handleDelete(e, d.id)}
                     aria-label={`Delete ${d.name || 'Draft'}`}
+                    title={`Delete ${d.name || 'Draft'}`}
                     className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-red-900/80 focus:bg-red-900/80 rounded-full opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity focus-visible:ring-2 focus-visible:ring-red-500"
                   >
                     <Trash2 className="w-4 h-4 text-white" />

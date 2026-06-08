@@ -21,6 +21,8 @@ export const TrackHeader = React.memo(
       <button
         onClick={onToggleLock}
         className="absolute top-1 right-0.5 p-0.5 rounded hover:bg-white/10 z-30"
+        aria-label={isLocked ? 'Unlock track' : 'Lock track'}
+        title={isLocked ? 'Unlock track' : 'Lock track'}
       >
         {isLocked ? (
           <Lock className="w-2 h-2 text-red-500" />

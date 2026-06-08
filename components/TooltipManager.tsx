@@ -52,11 +52,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
-    
+
     const rect = containerRef.current.getBoundingClientRect();
     const tooltipWidth = 120;
     const tooltipHeight = 32;
-    
+
     let top = 0;
     let left = 0;
 
@@ -119,6 +119,7 @@ export const TooltipButton: React.FC<{
 }> = ({ text, children, onClick, className = '' }) => (
   <Tooltip text={text}>
     <button
+      aria-label={text}
       onClick={onClick}
       className={`p-2 rounded transition-colors hover:bg-white/10 ${className}`}
     >
@@ -134,9 +135,7 @@ export const TooltipIcon: React.FC<{
   className?: string;
 }> = ({ text, icon, className = '' }) => (
   <Tooltip text={text}>
-    <div className={`cursor-help ${className}`}>
-      {icon}
-    </div>
+    <div className={`cursor-help ${className}`}>{icon}</div>
   </Tooltip>
 );
 
@@ -165,9 +164,7 @@ export const TooltipInput: React.FC<{
     {children}
     <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
       <Tooltip text={text}>
-        <div className="w-4 h-4 text-studio-text/50 hover:text-studio-text cursor-help">
-          ?
-        </div>
+        <div className="w-4 h-4 text-studio-text/50 hover:text-studio-text cursor-help">?</div>
       </Tooltip>
     </div>
   </div>
@@ -203,7 +200,9 @@ export const TooltipToolbarItem: React.FC<{
     <button
       onClick={onClick}
       className={`p-2 rounded transition-colors ${
-        active ? 'bg-studio-accent/20 text-studio-accent' : 'text-studio-text hover:text-studio-text-high hover:bg-white/10'
+        active
+          ? 'bg-studio-accent/20 text-studio-accent'
+          : 'text-studio-text hover:text-studio-text-high hover:bg-white/10'
       }`}
     >
       {children}

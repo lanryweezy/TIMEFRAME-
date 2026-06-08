@@ -1,13 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import {
-  Sparkles,
-  BarChart3,
-  TrendingUp,
-  Flame,
-  Calendar,
-  Zap,
-} from 'lucide-react';
+import { Sparkles, BarChart3, TrendingUp, Flame, Calendar, Zap } from 'lucide-react';
 
 export type HubTab = 'analytics' | 'viral' | 'publish' | 'optimize';
 
@@ -17,20 +10,8 @@ interface HubHeaderProps {
   onClose: () => void;
 }
 
-export const HubHeader: React.FC<HubHeaderProps> = ({
-  activeTab,
-  setActiveTab,
-  onClose,
-}) => {
-  const TabButton = ({
-    id,
-    label,
-    icon: Icon,
-  }: {
-    id: HubTab;
-    label: string;
-    icon: any;
-  }) => (
+export const HubHeader: React.FC<HubHeaderProps> = ({ activeTab, setActiveTab, onClose }) => {
+  const TabButton = ({ id, label, icon: Icon }: { id: HubTab; label: string; icon: any }) => (
     <button
       onClick={() => setActiveTab(id)}
       className={`flex-1 flex flex-col items-center gap-1.5 py-3 transition-all relative ${
@@ -67,6 +48,8 @@ export const HubHeader: React.FC<HubHeaderProps> = ({
         </div>
         <button
           onClick={onClose}
+          aria-label="Close Creator Hub"
+          title="Close Creator Hub"
           className="p-2 hover:bg-white/5 rounded-sm transition-all text-zinc-600 hover:text-white border border-transparent hover:border-studio-border"
         >
           <BarChart3 className="w-4 h-4" />

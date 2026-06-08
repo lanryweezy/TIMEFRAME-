@@ -11,7 +11,7 @@ interface WaveformProps {
   duration?: number; // Added
   progress?: number;
   color: string;
-  startTime?: number;
+  progress?: number;
 }
 
 const cache = new Map<string, number[]>();

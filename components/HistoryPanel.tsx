@@ -21,14 +21,18 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ state, onUndo, onRedo, onJu
           <h2 className="text-[12px] font-black uppercase tracking-widest">History Tree</h2>
         </div>
         <div className="flex gap-2">
-          <button 
+          <button
+            aria-label="Undo"
+            title="Undo"
             onClick={onUndo}
             disabled={past.length === 0}
             className="p-1.5 rounded bg-white/5 border border-white/10 disabled:opacity-30 hover:text-studio-accent transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
-          <button 
+          <button
+            aria-label="Redo"
+            title="Redo"
             onClick={onRedo}
             disabled={future.length === 0}
             className="p-1.5 rounded bg-white/5 border border-white/10 disabled:opacity-30 hover:text-studio-accent transition-colors"
@@ -51,7 +55,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ state, onUndo, onRedo, onJu
               className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-all group relative z-10"
             >
               <div className="w-8 h-8 rounded-full bg-zinc-900 border-2 border-zinc-800 flex items-center justify-center group-hover:border-studio-accent transition-all">
-                 <Clock className="w-3 h-3 text-zinc-600 group-hover:text-studio-accent" />
+                <Clock className="w-3 h-3 text-zinc-600 group-hover:text-studio-accent" />
               </div>
               <div className="flex flex-col items-start text-left">
                 <span className="text-[10px] font-black uppercase text-zinc-400 group-hover:text-white">
@@ -67,7 +71,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ state, onUndo, onRedo, onJu
           {/* Current State Indicator */}
           <div className="flex items-start gap-4 p-3 rounded-xl bg-studio-accent/10 border border-studio-accent/20 relative z-10">
             <div className="w-8 h-8 rounded-full bg-studio-accent flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-               <Save className="w-3.5 h-3.5 text-black" />
+              <Save className="w-3.5 h-3.5 text-black" />
             </div>
             <div className="flex flex-col items-start text-left">
               <span className="text-[10px] font-black uppercase text-studio-accent">
@@ -86,14 +90,14 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ state, onUndo, onRedo, onJu
               className="flex items-start gap-4 p-3 rounded-xl opacity-40 hover:opacity-100 hover:bg-white/5 transition-all group relative z-10"
             >
               <div className="w-8 h-8 rounded-full bg-zinc-900 border-2 border-zinc-800 flex items-center justify-center">
-                 <GitBranch className="w-3.5 h-3.5 text-zinc-700" />
+                <GitBranch className="w-3.5 h-3.5 text-zinc-700" />
               </div>
               <div className="flex flex-col items-start text-left">
                 <span className="text-[10px] font-black uppercase text-zinc-600">
                   Potential Path #{i + 1}
                 </span>
                 <span className="text-[8px] font-mono text-zinc-700">
-                   {snap.videoClips.length} clips • {snap.currentTime.toFixed(2)}s
+                  {snap.videoClips.length} clips • {snap.currentTime.toFixed(2)}s
                 </span>
               </div>
             </button>
@@ -105,7 +109,11 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ state, onUndo, onRedo, onJu
       <div className="p-4 bg-zinc-950/50 border-t border-studio-border">
         <div className="flex items-center justify-between text-[9px] font-black uppercase text-zinc-500">
           <span>{past.length + future.length + 1} Versions</span>
-          <button className="flex items-center gap-1.5 hover:text-red-500 transition-colors">
+          <button
+            aria-label="Clear History"
+            title="Clear History"
+            className="flex items-center gap-1.5 hover:text-red-500 transition-colors"
+          >
             <Trash2 className="w-3 h-3" />
             Clear
           </button>

@@ -41,7 +41,12 @@ export const GenerativeEngine: React.FC<GenerativeEngineProps> = ({
         <h2 className="text-xl font-display font-black text-white italic tracking-tighter">
           THE GENERATIVE ENGINE
         </h2>
-        <button onClick={onClose} className="text-zinc-500 hover:text-white">
+        <button
+          onClick={onClose}
+          aria-label="Close Generative Engine"
+          title="Close Generative Engine"
+          className="text-zinc-500 hover:text-white"
+        >
           Close
         </button>
       </div>

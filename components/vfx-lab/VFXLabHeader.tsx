@@ -8,11 +8,7 @@ interface VFXLabHeaderProps {
   onClose: () => void;
 }
 
-export const VFXLabHeader: React.FC<VFXLabHeaderProps> = ({
-  viewMode,
-  setViewMode,
-  onClose,
-}) => {
+export const VFXLabHeader: React.FC<VFXLabHeaderProps> = ({ viewMode, setViewMode, onClose }) => {
   const TabButton = ({
     id,
     label,
@@ -66,6 +62,8 @@ export const VFXLabHeader: React.FC<VFXLabHeaderProps> = ({
 
       <button
         onClick={onClose}
+        aria-label="Close VFX Lab"
+        title="Close VFX Lab"
         className="p-2 hover:bg-white/5 rounded-lg transition-all text-zinc-500 hover:text-white border border-transparent hover:border-white/10"
       >
         <Scissors className="w-4 h-4" />

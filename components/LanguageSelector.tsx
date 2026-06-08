@@ -9,12 +9,13 @@ export const LanguageSelector: React.FC = () => {
     <div className="relative group">
       <button
         className="flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono text-zinc-500 hover:text-white transition-colors rounded hover:bg-white/5"
+        aria-label={t('nav.settings')}
         title={t('nav.settings')}
       >
         <Globe className="w-3 h-3" />
         <span className="uppercase">{language}</span>
       </button>
-      
+
       <div className="absolute top-full right-0 mt-1 py-1 bg-studio-panel border border-studio-border rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 min-w-[120px]">
         {availableLanguages.map((lang) => (
           <button

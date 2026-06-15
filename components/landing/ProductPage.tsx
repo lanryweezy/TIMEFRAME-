@@ -125,7 +125,7 @@ export const ProductPage = ({ onNavigate }: { onNavigate: (page: string) => void
   }, []);
 
   return (
-    <div className="py-40 max-w-7xl mx-auto px-8 selection:bg-electric-blue selection:text-white relative antialiased">
+    <div className="py-40  mx-auto px-8 selection:bg-electric-blue selection:text-white relative antialiased">
       <div className="absolute inset-0 bg-blueprint opacity-[0.02] pointer-events-none" />
       
       <div className="text-center mb-80 relative">

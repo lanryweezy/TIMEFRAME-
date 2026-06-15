@@ -13,14 +13,14 @@ export const AboutPage = () => {
 
   if (loading)
     return (
-      <div className="py-32 max-w-5xl mx-auto px-6 space-y-16">
+      <div className="py-32  mx-auto px-6 space-y-16">
         <Skeleton className="h-64" />
         <Skeleton className="h-64" />
       </div>
     );
 
   return (
-    <div className="py-32 max-w-5xl mx-auto px-6">
+    <div className="py-32  mx-auto px-6">
       {/* Philosophy */}
       <motion.section
         variants={{

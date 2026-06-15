@@ -46,7 +46,7 @@ export const HomePage = ({ onStart, onNavigate }: { onStart: () => void, onNavig
         <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-neon-purple/5 blur-[160px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 pt-40 flex flex-col items-center text-center relative z-10">
+      <div className=" mx-auto px-8 pt-40 flex flex-col items-center text-center relative z-10">
         <motion.div style={{ opacity, scale }}>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -261,7 +261,7 @@ export const HomePage = ({ onStart, onNavigate }: { onStart: () => void, onNavig
            >
               <h2 className="text-5xl md:text-7xl font-black tracking-tightest tracking-tighter text-white">Proof of Impact.</h2>
            </motion.div>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto px-10">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12  mx-auto px-10">
               {[
                 { title: "Streaming Giant Reduces Edit Time by 80%", id: "case-study-1", desc: "Linear manual editing caused production bottlenecks." },
                 { title: "Independent Studio Scales to 50 Videos/Month", id: "case-study-2", desc: "Deployed generative actors and automated pacing analysis." }

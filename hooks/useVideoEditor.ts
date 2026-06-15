@@ -26,15 +26,9 @@ export const useVideoEditor = () => {
       const recovery = await ReliabilityService.getRecoveryState('current-project');
 
       if (recovery && (!saved || recovery.timestamp > (saved as any).lastSaved)) {
-        if (confirm(`Timeframe detected an unsaved session from ${new Date(recovery.timestamp).toLocaleTimeString()}. Restore it?`)) {
-          store.setState({
-            ...INITIAL_VIDEO_STATE,
-            ...recovery.state,
-            isPlaying: false,
-            history: { past: [], future: [] },
-          });
-          return;
-        }
+        // NON-BLOCKING UI: Use state to trigger a recovery toast instead of a blocking confirm
+        store.setState((s) => ({ ...s, pendingRecovery: recovery }));
+        return;
       }
 
       if (saved) {

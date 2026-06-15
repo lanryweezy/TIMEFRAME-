@@ -148,7 +148,7 @@ export const useTimelineDrag = (
         dragState.initialDuration !== undefined
       ) {
         let newStartTime = dragState.initialStartTime;
-        let newDuration = dragState.initialDuration;
+        let newDuration;
         let activeSnap: number | null = null;
 
         if (dragState.edge === 'start') {
@@ -163,12 +163,14 @@ export const useTimelineDrag = (
             dragState.initialDuration - (newStartTime - dragState.initialStartTime),
           );
         } else {
-          newDuration = Math.max(0.1, dragState.initialDuration + dx);
-          const endTime = dragState.initialStartTime + newDuration;
+          const tempDuration = Math.max(0.1, dragState.initialDuration + dx);
+          const endTime = dragState.initialStartTime + tempDuration;
           const snap = findNearestSnap(endTime);
           if (snap !== null) {
             newDuration = snap - dragState.initialStartTime;
             activeSnap = snap;
+          } else {
+            newDuration = tempDuration;
           }
         }
         setSnapGuide(activeSnap);

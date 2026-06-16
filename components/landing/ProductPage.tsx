@@ -125,7 +125,7 @@ export const ProductPage = ({ onNavigate }: { onNavigate: (page: string) => void
   }, []);
 
   return (
-    <div className="py-40  mx-auto px-8 selection:bg-electric-blue selection:text-white relative antialiased">
+    <div className="py-40 max-w-7xl mx-auto px-8 selection:bg-electric-blue selection:text-white relative antialiased">
       <div className="absolute inset-0 bg-blueprint opacity-[0.02] pointer-events-none" />
       
       <div className="text-center mb-80 relative">
@@ -139,7 +139,7 @@ export const ProductPage = ({ onNavigate }: { onNavigate: (page: string) => void
            <h2 className="text-7xl md:text-[11rem] font-black tracking-tightest leading-[0.75] tracking-tighter">
              Born for the <br/> Uncompromising.
            </h2>
-           <p className="text-2xl md:text-4xl text-studio-text max-w-4xl mx-auto font-medium opacity-50 leading-relaxed">
+           <p className="text-2xl md:text-4xl text-studio-text max-w-7xl mx-auto font-medium opacity-50 leading-relaxed">
              We stripped away the legacy friction of the cloud. No proxies. No latency. No compromise.
            </p>
         </motion.div>
@@ -175,7 +175,7 @@ export const ProductPage = ({ onNavigate }: { onNavigate: (page: string) => void
         <div className="text-center mb-40 relative z-10">
           <span className="text-electric-blue font-black uppercase tracking-[.6em] text-[11px] mb-12 block">Live Telemetry</span>
           <h2 className="text-6xl md:text-9xl font-black tracking-tightest mb-10 tracking-tighter">Proof of Soul.</h2>
-          <p className="text-2xl md:text-3xl text-studio-text opacity-50 font-medium max-w-3xl mx-auto">Scrub the timeline. Feel the zero-latency response of a true native engine.</p>
+          <p className="text-2xl md:text-3xl text-studio-text opacity-50 font-medium max-w-7xl mx-auto">Scrub the timeline. Feel the zero-latency response of a true native engine.</p>
         </div>
         <InteractionDemo />
       </div>

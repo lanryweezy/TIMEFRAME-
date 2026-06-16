@@ -109,7 +109,7 @@ export const EditorView: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full w-full bg-app-bg text-white overflow-hidden font-sans">
+      <div className="flex flex-col h-screen w-full bg-app-bg text-white overflow-hidden font-sans">
         <WorkspaceSwitcher />
 
         <div className="flex-1 flex overflow-hidden">

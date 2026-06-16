@@ -13,14 +13,14 @@ export const AboutPage = () => {
 
   if (loading)
     return (
-      <div className="py-32  mx-auto px-6 space-y-16">
+      <div className="py-32 max-w-7xl mx-auto px-6 space-y-16">
         <Skeleton className="h-64" />
         <Skeleton className="h-64" />
       </div>
     );
 
   return (
-    <div className="py-32  mx-auto px-6">
+    <div className="py-32 max-w-7xl mx-auto px-6">
       {/* Philosophy */}
       <motion.section
         variants={{
@@ -78,7 +78,7 @@ export const AboutPage = () => {
         <h2 className="text-5xl font-extrabold tracking-tighter text-white">
           The Future Of Generative Storytelling
         </h2>
-        <p className="text-xl text-studio-text leading-relaxed max-w-2xl mx-auto">
+        <p className="text-xl text-studio-text leading-relaxed max-w-7xl mx-auto">
           Timeframe isn't just a tool; it's the foundation for a new era of media where stories
           adapt in real-time, simulations replace renders, and intelligence powers every frame.
         </p>

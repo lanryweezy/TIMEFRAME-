@@ -25,12 +25,7 @@ export const useVideoEditor = () => {
       const saved = await loadProjectData();
       const recovery = await ReliabilityService.getRecoveryState('current-project');
 
-      if (recovery && (!saved || recovery.timestamp > (saved as any).lastSaved)) {
-        // NON-BLOCKING UI: Use state to trigger a recovery toast instead of a blocking confirm
-        store.setState((s) => ({ ...s, pendingRecovery: recovery }));
-        return;
-      }
-
+      // First, immediately load the saved state if it exists so the user sees their project
       if (saved) {
         store.setState({
           ...INITIAL_VIDEO_STATE,
@@ -38,6 +33,12 @@ export const useVideoEditor = () => {
           isPlaying: false,
           history: { past: [], future: [] },
         });
+      }
+
+      // Then, if a newer recovery state exists, trigger the non-blocking toast
+      if (recovery && (!saved || recovery.timestamp > (saved as any).lastSaved)) {
+        // NON-BLOCKING UI: Use state to trigger a recovery toast instead of a blocking confirm
+        store.setState((s) => ({ ...s, pendingRecovery: recovery }));
       }
     };
     init();

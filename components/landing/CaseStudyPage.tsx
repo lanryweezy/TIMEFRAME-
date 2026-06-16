@@ -34,7 +34,7 @@ export const CaseStudyPage = ({ id }: { id: string }) => {
   if (!study) return <div className="py-32 text-center text-white">Case study not found.</div>;
 
   return (
-    <div className="py-32  mx-auto px-6 text-white">
+    <div className="py-32 max-w-7xl mx-auto px-6 text-white">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

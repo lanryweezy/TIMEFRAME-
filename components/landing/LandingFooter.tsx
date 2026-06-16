@@ -3,7 +3,7 @@ import React from 'react';
 export const LandingFooter = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
   return (
     <footer className="py-40 border-t border-white/5 bg-[#050505]">
-      <div className="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-12 gap-20">
+      <div className=" mx-auto px-10 grid grid-cols-1 md:grid-cols-12 gap-20">
         <div className="md:col-span-4 space-y-10">
           <div className="text-2xl font-black tracking-tightest flex items-center gap-3">
              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
@@ -11,7 +11,7 @@ export const LandingFooter = ({ onNavigate }: { onNavigate: (page: string) => vo
              </div>
              <span className="tracking-tighter uppercase text-white">TIMEFRAME</span>
           </div>
-          <p className="text-xl text-white/40 font-medium leading-relaxed max-w-xs">
+          <p className="text-xl text-white/40 font-medium leading-relaxed ">
             Reimagining the architecture of creativity for the elite professional.
           </p>
           <div className="flex gap-6 opacity-30">
@@ -47,7 +47,7 @@ export const LandingFooter = ({ onNavigate }: { onNavigate: (page: string) => vo
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-10 mt-40 pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
+      <div className=" mx-auto px-10 mt-40 pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
          <div className="text-[10px] font-black uppercase tracking-[.8em] text-white/10">
             &copy; 2026 TIMEFRAME STUDIO. ALL RIGHTS RESERVED.
          </div>

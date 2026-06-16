@@ -19,7 +19,7 @@ await editor.cut({
   };
 
   return (
-    <div className="py-32 max-w-5xl mx-auto px-6 text-white">
+    <div className="py-32 max-w-7xl mx-auto px-6 text-white">
       <h1 className="text-5xl font-extrabold mb-12 tracking-tighter">Developer Resources</h1>
       <div className="glass p-10 rounded-3xl">
         <h3 className="text-2xl font-bold mb-6">Agent SDK Usage</h3>

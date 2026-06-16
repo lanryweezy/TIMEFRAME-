@@ -109,7 +109,7 @@ export const EditorView: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col h-screen w-screen bg-app-bg text-white overflow-hidden font-sans">
+      <div className="flex flex-col h-screen w-full bg-app-bg text-white overflow-hidden font-sans">
         <WorkspaceSwitcher />
 
         <div className="flex-1 flex overflow-hidden">
@@ -364,12 +364,51 @@ export const EditorView: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <CommandPalette
-        state={state}
-        handleSendMessage={handleSendMessage}
-        onClose={() => {}}
-        onModeChange={() => {}}
-      />
+      {state.pendingRecovery && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] bg-zinc-900 border border-zinc-800 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4">
+          <div>
+            <h4 className="text-sm font-semibold mb-1">Unsaved Session Detected</h4>
+            <p className="text-xs text-zinc-400">
+              Restore session from {new Date(state.pendingRecovery.timestamp).toLocaleTimeString()}?
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                store.setState({ pendingRecovery: undefined });
+              }}
+              className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+            >
+              Dismiss
+            </button>
+            <button
+              onClick={() => {
+                const recovery = state.pendingRecovery;
+                store.setState({
+                  ...recovery.state,
+                  isPlaying: false,
+                  history: { past: [], future: [] },
+                  pendingRecovery: undefined,
+                });
+              }}
+              className="px-3 py-1.5 text-xs bg-studio-accent text-white rounded-lg hover:brightness-110 transition-colors"
+            >
+              Restore
+            </button>
+          </div>
+        </div>
+      )}
+
+      <AnimatePresence>
+        {state.showCommandPalette && (
+          <CommandPalette
+            state={state}
+            handleSendMessage={handleSendMessage}
+            onClose={() => store.setState({ showCommandPalette: false })}
+            onModeChange={() => {}}
+          />
+        )}
+      </AnimatePresence>
       <SystemTray state={state} />
 
       <AnimatePresence>

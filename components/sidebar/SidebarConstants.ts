@@ -4,8 +4,8 @@
  */
 
 export const SIDEBAR_CONFIG = {
-  NAV_WIDTH: 'w-16',
-  PANEL_WIDTH: 'w-64',
+  NAV_WIDTH: 'w-[88px]',
+  PANEL_WIDTH: 'w-[320px]',
   NAV_ICON_SIZE: 24, // 6 * 4 = 24px (w-6 h-6)
   BADGE_SIZE: 12,
   MONITOR_METER_HEIGHT: 8,

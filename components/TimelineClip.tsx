@@ -1,8 +1,6 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { VideoState } from '../types';
-import { Waveform } from './ui/Waveform';
-
 interface TimelineClipProps {
   item: any;
   trackName: keyof VideoState;
@@ -160,14 +158,14 @@ const TimelineClipComponent: React.FC<TimelineClipProps> =
               if (e.button !== 0) return;
               onStartMove(e, trackName, item.id, item.startTime, item.duration);
             }}
-            className={`absolute inset-0 rounded-md border backdrop-blur-sm cursor-pointer group transition-all duration-200 overflow-hidden ${
+            className={`absolute inset-0 rounded-md border backdrop-blur-sm cursor-pointer group transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md ${
               isClipSelected
-                ? 'shadow-[0_0_15px_rgba(var(--studio-accent-rgb),0.3)] bg-zinc-800/90 border-studio-accent'
+                ? 'shadow-[0_0_15px_rgba(var(--studio-accent-rgb),0.4)] bg-zinc-800/95 border-studio-accent ring-1 ring-studio-accent/50 z-10 brightness-110'
                 : isHoveredActive
-                  ? 'bg-zinc-800/80 border-zinc-600'
+                  ? 'bg-zinc-800/90 border-zinc-500 shadow-[0_0_10px_rgba(255,255,255,0.05)] z-10 brightness-105'
                   : activeCollaborators.length > 0
                     ? 'bg-indigo-950/40 border-indigo-500/50'
-                    : 'bg-zinc-900/60 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/60'
+                    : 'bg-zinc-900/70 border-white/5 hover:border-white/20 hover:bg-zinc-800/80'
             } ${className}`}
             style={{
               backgroundColor: !isClipSelected && item.color ? `${item.color}33` : undefined,

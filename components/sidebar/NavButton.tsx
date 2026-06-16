@@ -25,8 +25,8 @@ export const NavButton: React.FC<NavButtonProps> = ({
   return (
     <button
       onClick={() => onClick(mode)}
-      className={`relative w-full flex flex-col items-center justify-center py-5 transition-colors group ${
-        isActive ? 'text-white' : 'text-zinc-600 hover:text-zinc-300'
+      className={`relative w-12 h-12 mx-auto flex flex-col items-center justify-center transition-all group rounded-xl hover:bg-white/5 active:scale-95 ${
+        isActive ? 'text-white bg-white/[0.02]' : 'text-zinc-500 hover:text-zinc-300'
       }`}
       title={label}
       aria-label={label}
@@ -34,17 +34,17 @@ export const NavButton: React.FC<NavButtonProps> = ({
       {isActive && (
         <motion.div
           layoutId="navActive"
-          className="absolute right-0 w-1 h-8 bg-studio-accent rounded-l-full shadow-[0_0_10px_rgba(var(--studio-accent-rgb),0.4)]"
+          className="absolute left-[-16px] w-1 h-6 bg-studio-accent rounded-r-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
         />
       )}
       <div className="relative">
         <Icon
-          className={`w-6 h-6 mb-2 transition-transform ${
-            isActive ? 'scale-110 text-studio-accent' : 'group-hover:scale-105'
+          className={`w-5 h-5 transition-all ${
+            isActive ? 'text-studio-accent drop-shadow-[0_0_8px_rgba(59,130,246,0.4)]' : 'group-hover:scale-105'
           }`}
         />
         {badge && (
-          <div className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-studio-accent text-black text-[8px] font-black rounded-full shadow-lg">
+          <div className="absolute -top-2 -right-2 px-1 py-0.5 bg-studio-accent text-black text-[9px] font-bold rounded-full shadow-lg border border-black/20">
             {badge}
           </div>
         )}

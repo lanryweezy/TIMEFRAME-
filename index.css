@@ -15,6 +15,7 @@
 
 /* Dark Theme (Default) */
 @theme {
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --color-studio-bg: #050505;
   --color-studio-panel: #0a0a0a;
   --color-studio-border: #1a1a1a;
@@ -30,12 +31,12 @@
   --color-neon-purple: #8b5cf6;
 
   /* Semantic Layout Colors */
-  --color-app-bg: #020202;
-  --color-panel-base: #050505;
-  --color-panel-elevated: rgba(15, 15, 15, 0.7);
-  --color-panel-border: rgba(255, 255, 255, 0.08);
+  --color-app-bg: #0B0D10;
+  --color-panel-base: #12151A;
+  --color-panel-elevated: #181C22;
+  --color-panel-border: rgba(255, 255, 255, 0.06);
 
-  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
   /* Fluid Typography */
@@ -114,8 +115,22 @@
     @apply flex items-center justify-center gap-2 rounded-sm transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] hover:bg-white/5 text-zinc-500 hover:text-white;
   }
 
+  /* Global Scrollbar Customization for Webkit */
+  ::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full border border-transparent bg-clip-padding hover:bg-white/20 transition-colors;
+  }
+
+  /* Specific override class if needed */
   .studio-scrollbar::-webkit-scrollbar {
-    @apply w-1 h-1;
+    @apply w-1.5 h-1.5;
   }
 
   .studio-scrollbar::-webkit-scrollbar-track {
@@ -123,7 +138,7 @@
   }
 
   .studio-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-studio-border rounded-full hover:bg-zinc-700;
+    @apply bg-white/10 rounded-full border border-transparent bg-clip-padding hover:bg-white/20 transition-colors;
   }
 
   a:focus-visible,

@@ -110,6 +110,7 @@ export interface VideoState {
   };
   activeMode: EditorMode;
   showCommandPalette: boolean;
+  pendingRecovery?: { timestamp: number; state: any };
   playbackSpeed: number;
   aspectRatio: AspectRatio;
   activeFilter: FilterPreset;

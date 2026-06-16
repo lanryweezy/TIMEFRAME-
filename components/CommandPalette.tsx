@@ -236,7 +236,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
           initial={{ opacity: 0, scale: 0.95, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
-          className="relative w-full max-w-xl bg-studio-card border border-white/10 rounded-xl shadow-2xl shadow-black/50 overflow-hidden"
+          className="relative w-full max-w-xl bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 overflow-hidden"
         >
           {/* Conversational Header */}
           <div className="px-4 py-2 bg-gradient-to-r from-studio-accent/20 to-purple-500/20 border-b border-white/5 flex items-center justify-between">

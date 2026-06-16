@@ -78,11 +78,11 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onJumpToHistory,
 }) => {
   return (
-    <div className="flex h-full select-none">
-      <nav className={`${SIDEBAR_CONFIG.NAV_WIDTH} bg-black flex flex-col pt-6 gap-0 z-30`}>
+    <div className="flex h-full select-none mt-2 ml-4 mb-2">
+      <nav className={`${SIDEBAR_CONFIG.NAV_WIDTH} bg-panel-base/90 backdrop-blur-3xl border border-white/5 shadow-2xl rounded-l-[20px] flex flex-col py-6 gap-1 z-30 overflow-hidden`}>
         {NAV_ITEMS.map((item, index) => {
           if (item.mode === 'separator') {
-            return <div key={`sep-${index}`} className="h-px bg-white/5 mx-3 my-2 opacity-20" />;
+            return <div key={`sep-${index}`} className="h-px bg-white/5 mx-6 my-2 opacity-50" />;
           }
 
           const Icon = iconMap[item.icon as keyof typeof iconMap];
@@ -99,19 +99,19 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
           );
         })}
 
-        <div className="mt-auto pb-6">
+        <div className="mt-auto pb-6 flex justify-center">
           <button
             onClick={() => handleSendMessage('Show settings.')}
-            className="w-full flex flex-col items-center justify-center text-zinc-600 hover:text-studio-accent transition-all hover:scale-110"
+            className="w-12 h-12 flex flex-col items-center justify-center text-zinc-500 hover:text-white hover:bg-white/5 rounded-xl transition-all active:scale-95 group"
             aria-label="Settings"
+            title="Settings"
           >
-            <Settings className="w-6 h-6 mb-2" />
-            <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Set</span>
+            <Settings className="w-5 h-5 group-hover:rotate-90 transition-transform duration-500" />
           </button>
         </div>
       </nav>
 
-      <aside className={`${SIDEBAR_CONFIG.PANEL_WIDTH} bg-zinc-950/10 backdrop-blur-3xl flex flex-col z-20 relative border-r border-white/5 shadow-2xl`}>
+      <aside className={`${SIDEBAR_CONFIG.PANEL_WIDTH} bg-panel-base/60 backdrop-blur-3xl flex flex-col z-20 relative border-y border-r border-white/5 shadow-2xl rounded-r-[20px]`}>
         <header className="px-6 py-6 flex justify-between items-center relative z-10">
           <div className="flex flex-col">
             <h2 className="text-[14px] font-black text-zinc-100 tracking-[0.2em] uppercase leading-none opacity-90">

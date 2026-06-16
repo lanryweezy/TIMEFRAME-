@@ -36,16 +36,16 @@ export const WorkspaceSwitcher: React.FC = () => {
   const activeWorkspace = ui.activeWorkspace;
 
   return (
-    <div className="h-12 bg-black border-b border-white/5 flex items-center justify-between px-4 relative z-[100]">
+    <div className="h-14 mt-2 mx-4 bg-panel-elevated/80 backdrop-blur-2xl border border-white/5 rounded-[20px] shadow-2xl flex items-center justify-between px-6 relative z-[100]">
       {/* Left side: Project Info & History */}
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-studio-accent rounded-lg flex items-center justify-center">
-              <Layout className="w-5 h-5 text-black" />
+      <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
+          <div className="w-8 h-8 bg-studio-accent rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+              <Layout className="w-4 h-4 text-white" />
           </div>
           <div className="hidden lg:flex flex-col">
-              <span className="text-[10px] font-black uppercase text-white tracking-widest leading-none">Timeframe</span>
-              <span className="text-[8px] font-bold text-zinc-500 uppercase tracking-tighter mt-1">{state.projectName || 'Untitled'}</span>
+              <span className="text-xs font-semibold text-white tracking-wide leading-none">Timeframe</span>
+              <span className="text-[10px] font-medium text-zinc-500 tracking-wide mt-1">{state.projectName || 'Untitled Project'}</span>
           </div>
         </div>
 
@@ -55,26 +55,26 @@ export const WorkspaceSwitcher: React.FC = () => {
           <button
             onClick={handleUndo}
             disabled={state.history.past.length === 0}
-            className="p-2 text-zinc-500 hover:text-white transition-all hover:bg-white/5 rounded-lg disabled:opacity-20"
+            className="p-2 text-zinc-500 hover:text-white transition-all hover:bg-white/5 rounded-xl disabled:opacity-20"
             title="Undo"
             aria-label="Undo"
           >
-            <Undo2 className="w-3.5 h-3.5" />
+            <Undo2 className="w-4 h-4" />
           </button>
           <button
             onClick={handleRedo}
             disabled={state.history.future.length === 0}
-            className="p-2 text-zinc-500 hover:text-white transition-all hover:bg-white/5 rounded-lg disabled:opacity-20"
+            className="p-2 text-zinc-500 hover:text-white transition-all hover:bg-white/5 rounded-xl disabled:opacity-20"
             title="Redo"
             aria-label="Redo"
           >
-            <Redo2 className="w-3.5 h-3.5" />
+            <Redo2 className="w-4 h-4" />
           </button>
         </div>
       </div>
 
       {/* Center: Workspace Switcher */}
-      <div className="flex bg-white/5 p-1 rounded-xl border border-white/5">
+      <div className="flex bg-black/40 p-1.5 rounded-[16px] border border-white/5">
         {WORKSPACES.map((ws) => {
           const Icon = ws.icon;
           const isActive = activeWorkspace === ws.id;
@@ -83,18 +83,18 @@ export const WorkspaceSwitcher: React.FC = () => {
             <button
               key={ws.id}
               onClick={() => applyLayoutPreset(ws.id)}
-              className={`relative px-4 py-1.5 rounded-lg flex items-center gap-2 transition-all group ${
+              className={`relative px-5 py-2 rounded-xl flex items-center gap-2 transition-all group ${
                 isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
               }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="activeWS"
-                  className="absolute inset-0 bg-white/10 rounded-lg shadow-inner"
+                  className="absolute inset-0 bg-studio-accent/20 border border-studio-accent/30 rounded-xl"
                 />
               )}
-              <Icon className={`w-3.5 h-3.5 transition-colors ${isActive ? ws.color : 'group-hover:text-zinc-300'}`} />
-              <span className="text-[10px] font-black uppercase tracking-widest relative z-10 hidden sm:inline">
+              <Icon className={`w-4 h-4 transition-colors ${isActive ? ws.color : 'group-hover:text-zinc-300'}`} />
+              <span className="text-xs font-semibold tracking-wide relative z-10 hidden sm:inline">
                 {ws.label}
               </span>
             </button>

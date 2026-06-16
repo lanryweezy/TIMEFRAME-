@@ -200,7 +200,7 @@ export const HomePage = ({ onStart, onNavigate }: { onStart: () => void, onNavig
               <div className="text-center mb-32">
                  <span className="text-electric-blue font-semibold uppercase tracking-widest text-[11px] mb-8 block">Engineering</span>
                  <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">Built to perform.</h2>
-                 <p className="text-xl text-studio-text opacity-50 max-w-2xl mx-auto font-medium">Four core technologies that redefined the boundaries of the browser.</p>
+                 <p className="text-xl text-studio-text opacity-50 max-w-7xl mx-auto font-medium">Four core technologies that redefined the boundaries of the browser.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-12 gap-10">

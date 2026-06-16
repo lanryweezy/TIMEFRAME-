@@ -88,7 +88,6 @@ const App: React.FC = () => {
           <div
             className={`flex h-screen w-screen bg-studio-bg text-studio-text select-none overflow-hidden font-sans relative ${isAnalyzing ? 'chromatic-aberration' : ''}`}
           >
-            <div className="grain-overlay" />
             {view === 'landing' && <LandingPage onStart={() => setView('dashboard')} />}
             {view === 'dashboard' && (
               <Dashboard

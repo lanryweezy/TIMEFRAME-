@@ -399,14 +399,16 @@ export const EditorView: React.FC = () => {
         </div>
       )}
 
-      {state.showCommandPalette && (
-        <CommandPalette
-          state={state}
-          handleSendMessage={handleSendMessage}
-          onClose={() => store.setState({ showCommandPalette: false })}
-          onModeChange={() => {}}
-        />
-      )}
+      <AnimatePresence>
+        {state.showCommandPalette && (
+          <CommandPalette
+            state={state}
+            handleSendMessage={handleSendMessage}
+            onClose={() => store.setState({ showCommandPalette: false })}
+            onModeChange={() => {}}
+          />
+        )}
+      </AnimatePresence>
       <SystemTray state={state} />
 
       <AnimatePresence>

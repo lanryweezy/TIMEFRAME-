@@ -1,6 +1,8 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { VideoState } from '../types';
+import { Waveform } from './ui/Waveform';
+
 interface TimelineClipProps {
   item: any;
   trackName: keyof VideoState;

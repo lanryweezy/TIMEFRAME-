@@ -11,7 +11,7 @@ export const LandingHeader = ({
 }) => {
   return (
     <header className="fixed top-0 inset-x-0 z-[100] border-b border-white/5 bg-black/40 backdrop-blur-3xl">
-      <div className="flex items-center justify-between px-10 h-24 mx-auto">
+      <div className="flex items-center justify-between px-10 h-24 max-w-7xl mx-auto">
         <div
           className="text-2xl font-black tracking-tightest cursor-pointer hover:opacity-70 transition-opacity flex items-center gap-3"
           onClick={() => onNavigate('home')}

@@ -148,12 +148,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   }, [engagement]);
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-8 bg-app-bg">
       <MonitoringHUD state={state} activeClip={activeClip} />
 
       <div
         ref={playerContainerRef}
-        className={`relative overflow-hidden bg-black transition-all duration-700 shadow-[0_0_50px_rgba(0,0,0,1)] border ${getAspectRatioClasses(state.aspectRatio)} ${state.isAnalyzing || state.isGenerating || state.isEnhancing || state.isStabilizing || state.isGeneratingAvatar ? 'border-blue-500/50 active-glow' : 'border-[#1a1a1a]'}`}
+        className={`relative overflow-hidden bg-black transition-all duration-700 rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] border ${getAspectRatioClasses(state.aspectRatio)} ${state.isAnalyzing || state.isGenerating || state.isEnhancing || state.isStabilizing || state.isGeneratingAvatar ? 'border-studio-accent/50 shadow-[0_0_80px_rgba(59,130,246,0.2)]' : 'border-white/5'}`}
       >
         {/* Dopamine Glow Layer */}
         <div

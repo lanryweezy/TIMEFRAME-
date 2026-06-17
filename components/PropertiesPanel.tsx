@@ -65,9 +65,9 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
   };
 
   return (
-    <div className="h-full bg-[#050505] flex flex-col overflow-hidden">
+    <div className="h-full bg-panel-base flex flex-col overflow-hidden">
       {/* Search Header */}
-      <div className="px-5 py-4 border-b border-white/5 bg-white/2">
+      <div className="px-5 py-4 border-b border-white/5 bg-panel-elevated/30 backdrop-blur-xl">
         <div className="relative group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-studio-accent transition-colors" />
           <input

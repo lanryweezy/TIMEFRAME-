@@ -208,30 +208,31 @@ const AudioPanel: React.FC<AudioPanelProps> = ({ state, onUpdateAudio, handleSen
     };
 
     return (
-      <div className="p-4 bg-zinc-900/50 border border-white/5 rounded-2xl hover:border-studio-accent/30 transition-all group shadow-lg">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-xl ${color} bg-opacity-10 ring-1 ring-inset ring-white/5`}>
-              {audio.type === 'music' ? (
-                <Music className="w-4 h-4 text-purple-400" />
-              ) : audio.type === 'voiceover' ? (
-                <Mic2 className="w-4 h-4 text-studio-accent" />
-              ) : (
-                <Waves className="w-4 h-4 text-cyan-400" />
-              )}
+      <div className="bg-panel-elevated/40 border border-white/5 rounded-[18px] hover:border-white/10 transition-all group shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden">
+        <div className="p-4 bg-white/[0.02]">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-xl ${color} bg-opacity-10 ring-1 ring-inset ring-white/5`}>
+                {audio.type === 'music' ? (
+                  <Music className="w-4 h-4 text-purple-400" />
+                ) : audio.type === 'voiceover' ? (
+                  <Mic2 className="w-4 h-4 text-studio-accent" />
+                ) : (
+                  <Waves className="w-4 h-4 text-cyan-400" />
+                )}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-semibold tracking-wide text-zinc-200 truncate max-w-[120px]">
+                  {audio.name}
+                </span>
+                <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">
+                  {audio.type}
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-[12px] font-black uppercase tracking-tight text-white/90 truncate max-w-[120px]">
-                {audio.name}
-              </span>
-              <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">
-                {audio.type}
-              </span>
-            </div>
-          </div>
-          <div className="flex gap-1.5">
-            <button
-              onClick={() => {
+            <div className="flex gap-1.5">
+              <button
+                onClick={() => {
                 setIsEqExpanded(!isEqExpanded);
                 setIsAutoExpanded(false);
               }}
@@ -327,8 +328,8 @@ const AudioPanel: React.FC<AudioPanelProps> = ({ state, onUpdateAudio, handleSen
           )}
         </AnimatePresence>
 
-        <div className="h-12 bg-black/60 rounded-xl border border-white/5 relative overflow-hidden mb-4 group-hover:border-studio-accent/20 transition-all">
-          <div className="absolute inset-0 flex items-center gap-[1px] px-2 opacity-30">
+        <div className="h-12 bg-black/40 rounded-xl border border-white/5 relative overflow-hidden mb-4 group-hover:border-white/10 transition-all">
+          <div className="absolute inset-0 flex items-center gap-[1px] px-2 opacity-40">
             {Array.from({ length: 64 }).map((_, i) => (
               <div
                 key={i}
@@ -339,42 +340,53 @@ const AudioPanel: React.FC<AudioPanelProps> = ({ state, onUpdateAudio, handleSen
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 pb-2">
           <div className="flex items-center gap-4">
             <div className="flex-1 space-y-2">
-              <div className="flex justify-between items-center text-[8px] font-black uppercase text-zinc-500 tracking-widest">
+              <div className="flex justify-between items-center text-[10px] text-zinc-400 font-medium uppercase tracking-wider">
                 <span>Volume</span>
-                <span className="text-studio-accent font-mono">{audio.volume}%</span>
+                <span className="text-white bg-black/20 px-2 py-0.5 rounded-md min-w-[36px] text-center text-[10px] font-mono">{audio.volume.toFixed(0)}</span>
               </div>
-              <input
-                type="range"
-                min="0"
-                max="200"
-                value={audio.volume}
-                onChange={(e) => onUpdateAudio?.(audio.id, { volume: parseInt(e.target.value) })}
-                className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-studio-accent hover:accent-white transition-all"
-              />
+              <div className="relative h-6 group/slider">
+                <div className="absolute inset-0 bg-black/40 border border-white/5 rounded-full overflow-hidden">
+                   <div className="absolute top-0 bottom-0 left-0 bg-studio-accent/40 transition-all" style={{ width: `${(audio.volume / 200) * 100}%` }} />
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="200"
+                  value={audio.volume}
+                  onChange={(e) => onUpdateAudio?.(audio.id, { volume: parseInt(e.target.value) })}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+              </div>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="flex-1 space-y-2">
-              <div className="flex justify-between items-center text-[8px] font-black uppercase text-zinc-500 tracking-widest">
+              <div className="flex justify-between items-center text-[10px] text-zinc-400 font-medium uppercase tracking-wider">
                 <span>Panning</span>
-                <span className="text-zinc-400 font-mono">{(audio as any).pan || 0}</span>
+                <span className="text-white bg-black/20 px-2 py-0.5 rounded-md min-w-[36px] text-center text-[10px] font-mono">{(audio as any).pan || 0}</span>
               </div>
-              <input
-                type="range"
-                min="-100"
-                max="100"
-                value={(audio as any).pan || 0}
-                onChange={(e) =>
-                  onUpdateAudio?.(audio.id, { pan: parseInt(e.target.value) } as any)
-                }
-                className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-zinc-500 hover:accent-studio-accent transition-all"
-              />
+              <div className="relative h-6 group/slider">
+                <div className="absolute inset-0 bg-black/40 border border-white/5 rounded-full overflow-hidden">
+                   <div className="absolute top-0 bottom-0 left-1/2 bg-studio-accent/40 transition-all -translate-x-1/2" style={{ width: `${Math.abs((audio as any).pan || 0)}%`, transformOrigin: ((audio as any).pan || 0) < 0 ? 'right' : 'left', transform: ((audio as any).pan || 0) < 0 ? 'scaleX(-1) translateX(50%)' : 'translateX(-50%)' }} />
+                </div>
+                <input
+                  type="range"
+                  min="-100"
+                  max="100"
+                  value={(audio as any).pan || 0}
+                  onChange={(e) =>
+                    onUpdateAudio?.(audio.id, { pan: parseInt(e.target.value) } as any)
+                  }
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+              </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     );

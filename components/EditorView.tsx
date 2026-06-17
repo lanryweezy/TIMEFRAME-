@@ -375,7 +375,7 @@ export const EditorView: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => {
-                store.setState({ pendingRecovery: undefined });
+                useVideoStore.setState({ pendingRecovery: undefined });
               }}
               className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
             >
@@ -384,7 +384,7 @@ export const EditorView: React.FC = () => {
             <button
               onClick={() => {
                 const recovery = state.pendingRecovery;
-                store.setState({
+                useVideoStore.setState({
                   ...recovery.state,
                   isPlaying: false,
                   history: { past: [], future: [] },
@@ -404,7 +404,7 @@ export const EditorView: React.FC = () => {
           <CommandPalette
             state={state}
             handleSendMessage={handleSendMessage}
-            onClose={() => store.setState({ showCommandPalette: false })}
+            onClose={() => useVideoStore.setState({ showCommandPalette: false })}
             onModeChange={() => {}}
           />
         )}

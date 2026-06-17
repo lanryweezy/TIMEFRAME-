@@ -172,51 +172,58 @@ export const TransformProperties: React.FC<TransformPropertiesProps> = ({
                 { label: 'Rotate', prop: 'rotation', min: -180, max: 180, step: 1 },
                 { label: 'PosX', prop: 'positionX', min: -500, max: 500, step: 1 },
                 { label: 'PosY', prop: 'positionY', min: -500, max: 500, step: 1 },
-              ].map((item) => (
-                <div key={item.prop} className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <label className="text-[7px] text-slate-500 uppercase font-mono tracking-widest">
-                      {item.label}
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <KeyframeToggle prop={item.prop} />
-                      <span className="text-[9px] font-mono text-white">
-                        {((selectedClip.transform?.[item.prop as keyof VideoTransform] as number) || 0).toFixed(2)}
+              ].map((item) => {
+                const val = (selectedClip.transform?.[item.prop as keyof VideoTransform] as number) || (item.prop === 'scale' ? 1 : 0);
+                return (
+                  <div key={item.prop} className="space-y-2">
+                    <div className="flex justify-between items-center text-[10px] text-zinc-400 font-medium uppercase tracking-wider">
+                      <div className="flex items-center gap-2">
+                        <span>{item.label}</span>
+                        <KeyframeToggle prop={item.prop} />
+                      </div>
+                      <span className="text-white bg-black/20 px-2 py-0.5 rounded-md min-w-[36px] text-center text-[10px] font-mono">
+                        {val.toFixed(2)}
                       </span>
                     </div>
-                  </div>
-                  <input
-                    type="range"
-                    min={item.min}
-                    max={item.max}
-                    step={item.step}
-                    value={(selectedClip.transform?.[item.prop as keyof VideoTransform] as number) || 0}
-                    onChange={(e) =>
-                      onUpdateClip(selectedClip.id, {
-                        transform: {
-                          ...(selectedClip.transform || {
-                            scale: 1,
-                            positionX: 0,
-                            positionY: 0,
-                            rotation: 0,
-                            opacity: 100,
-                            keyframes: {},
-                          }),
-                          [item.prop]: parseFloat(e.target.value),
-                        },
-                      })
-                    }
-                    className="w-full accent-studio-accent"
-                  />
-                  {activeKeyframeProp === item.prop && (
-                      <KeyframeEditor 
-                        selectedClip={selectedClip} 
-                        property={item.prop} 
-                        onUpdateKeyframes={handleUpdateKeyframes} 
+                    <div className="relative h-6 group/slider">
+                      <div className="absolute inset-0 bg-black/40 border border-white/5 rounded-full overflow-hidden">
+                        <div className="absolute top-0 bottom-0 left-0 bg-studio-accent/40 transition-all" style={{ width: `${((val - item.min) / (item.max - item.min)) * 100}%` }} />
+                      </div>
+                      <input
+                        type="range"
+                        min={item.min}
+                        max={item.max}
+                        step={item.step}
+                        value={val}
+                        onChange={(e) =>
+                          onUpdateClip(selectedClip.id, {
+                            transform: {
+                              ...(selectedClip.transform || {
+                                scale: 1,
+                                positionX: 0,
+                                positionY: 0,
+                                rotation: 0,
+                                opacity: 100,
+                                keyframes: {},
+                              }),
+                              [item.prop]: parseFloat(e.target.value),
+                            },
+                          })
+                        }
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        aria-label={`Adjust ${item.label}`}
                       />
-                  )}
-                </div>
-              ))}
+                    </div>
+                    {activeKeyframeProp === item.prop && (
+                        <KeyframeEditor
+                          selectedClip={selectedClip}
+                          property={item.prop}
+                          onUpdateKeyframes={handleUpdateKeyframes}
+                        />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </Section>
 

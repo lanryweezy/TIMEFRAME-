@@ -14,7 +14,7 @@ export const PricingPage = ({ onStart }: { onStart?: () => void }) => {
 
   return (
     <section className="py-32 bg-midnight">
-      <div className=" mx-auto px-6">
+      <div className=" max-w-7xl mx-auto px-6">
         <h2 className="text-5xl font-extrabold tracking-tighter text-center mb-12 text-white">
           Simple, Scalable Pricing
         </h2>

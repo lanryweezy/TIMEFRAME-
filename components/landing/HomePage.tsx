@@ -72,7 +72,7 @@ export const HomePage = ({ onStart, onNavigate }: { onStart: () => void, onNavig
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-studio-text text-xl md:text-2xl max-w-2xl font-medium leading-relaxed mb-20 mx-auto opacity-80"
+            className="text-studio-text text-xl md:text-2xl max-w-2xl font-medium leading-relaxed mb-20 max-w-7xl mx-auto opacity-80"
           >
             In an age of automated generation, we return to the artist. 
             TIMEFRAME is a professional-grade video editing operating system built for the browser.

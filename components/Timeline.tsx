@@ -868,7 +868,7 @@ const Timeline: React.FC<TimelineProps> = ({
       </div>
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto overflow-x-auto studio-scrollbar relative bg-[#020202]"
+        className="flex-1 overflow-y-auto overflow-x-auto studio-scrollbar relative bg-app-bg"
         onWheel={handleWheel}
         onKeyDown={(e) => {
           if (e.key === 'ArrowLeft') onSeek(Math.max(0, state.currentTime - 1 / 30));
@@ -877,7 +877,7 @@ const Timeline: React.FC<TimelineProps> = ({
         tabIndex={0}
       >
         <div
-          className="relative min-h-[500px]"
+          className="relative min-h-[500px] border-t border-white/5"
           ref={timelineRef}
           onClick={handleTimelineClick}
           onTouchStart={handleTouchStart}
